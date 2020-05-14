@@ -1,16 +1,31 @@
-# cytosynth
+# CytoGenesis
 
-A new Flutter project.
+Cytoid Charter App written in Flutter Framework.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+# Developer Dependencies
 
-A few resources to get you started if this is your first Flutter project:
+1. Flutter (duh!)
+2. Android-SDK version 28 (Easiest to install via Android Studio). Latest Android Studio install
+   Andoird-SDK may only install version 29 upwards. If you get error running depite `flutter doctor` does
+   not spew errors on Android-SDK do next step in Terminal:
+   ```bash
+   cp $HOME/Android/Sdk/platforms/android-29/android.jar $HOME/Android/Sdk/platforms/android-28/android.jar
+   ```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+# How to Run (Dev)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Connect your phone (and make sure `USB Debugging` in `developer option` is ticked).
+
+Run in Terminal:
+
+```bash
+flutter devices
+```
+
+You should get your phone device id on the output. Then run:
+
+```bash
+flutter run -d "device_id"
+```

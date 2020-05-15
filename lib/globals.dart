@@ -35,7 +35,7 @@ class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class Result<T, V> {
-  T ok;
-  V value;
-  Result(this.ok, this.value);
+  T var1;
+  V var2;
+  Result(this.var1, this.var2);
 }

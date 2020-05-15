@@ -54,13 +54,17 @@ class RecentFile {
 
 class RecentFileList {
   List<RecentFile> recentFiles;
+  File _file;
+
   RecentFileList();
+
   Future<Result<bool, String>> load() async {
     final dir = await getApplicationDocumentsDirectory();
-    final file = File('$dir/recent_files.json');
+    final path = dir.path;
+    _file = File('$path/recent_files.json');
 
     try {
-      _marshal(await file.readAsString());
+      _unmarshal(await _file.readAsString());
       return Result(true, "Load file success.");
     } catch (e) {
       // TODO: Clear this print
@@ -69,16 +73,43 @@ class RecentFileList {
     }
   }
 
-  _marshal(String jsonString) {
+  Result<List<RecentFile>, List<RecentFile>> getByCache() {
+    _verifyCache();
+    var cached = recentFiles.where((rf) => rf.cached);
+    var uncached = recentFiles.where((rf) => !rf.cached);
+    return Result(cached, uncached);
+  }
+
+  _unmarshal(String jsonString) {
     final j = jsonDecode(jsonString);
     for (var i = 0; i < j.length; i++) {
       recentFiles.add(RecentFile.fromJSON(j[i]));
     }
   }
 
-  String toJSON() {
+  _verifyCache() {
+    recentFiles.forEach((RecentFile rf) {
+      if (rf.cached) {
+        var mus = File(rf.musicPath);
+        var pre = File(rf.previewPath);
+        var meta = File(rf.metaPath);
+        if (!mus.existsSync() || !pre.existsSync() || !meta.existsSync()) {
+          rf.cached = false;
+        }
+      }
+    });
+  }
+
+  Future<Result<bool, String>> save() async {
     List<Map<String, dynamic>> marshalledRecentList;
     recentFiles.forEach((re) => marshalledRecentList.add(re.toJson()));
-    return jsonEncode(marshalledRecentList);
+    var content = jsonEncode(marshalledRecentList);
+    try {
+      await _file.writeAsString(content, encoding: Encoding.getByName('utf-8'));
+      return Result(true, "File saved");
+    } catch (e) {
+      print(e);
+      return Result(false, "Failed to save file");
+    }
   }
 }

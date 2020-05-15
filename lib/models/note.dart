@@ -9,9 +9,7 @@ class Note {
   int holdTick;
   int nextID;
   int linkID;
-  int parentChainID;
   bool markedForDelete;
-  int originID;
 
   Note({
     @required this.pageIndex,
@@ -21,7 +19,6 @@ class Note {
     this.holdTick = 0,
     this.nextID = 0,
     this.linkID = -1,
-    this.parentChainID = -1,
   }) : markedForDelete = false;
 
   Note.fromJSON(Map<String, dynamic> note)
@@ -33,8 +30,7 @@ class Note {
         holdTick = note['hold_tick'],
         nextID = note['next_id'],
         linkID = note['link_id'],
-        markedForDelete = false,
-        originID = note['id'];
+        markedForDelete = false;
 
   Map<String, dynamic> toJSON() => {
         'page_index': pageIndex,
@@ -53,7 +49,6 @@ class NoteList {
   int count;
   Map<int, List<int>> _chains;
   Map<int, int> _reIndexLinkID;
-  Map<int, int> _reIndexNextID;
 
   NoteList() {
     _notes = <Note>[];
@@ -102,8 +97,10 @@ class NoteList {
   /// marshal sorts the notes by timestamp, deletes marked for deletion notes and re-indexes them.
   /// This function does heavy work and should be called sparingly.
   marshal() {
+    Map<int, List<int>> newChains = {};
     _notes.sort((a, b) => a.tick.compareTo(b.tick));
     _notes.removeWhere((x) => x.markedForDelete);
+
     for (var i = 0; i < _notes.length; i++) {
       var oldNote = _notes[i];
 
@@ -120,15 +117,56 @@ class NoteList {
           _reIndexLinkID[origin] = target;
         }
       }
+
+      // Re-Register chain parent IDs
+      if (oldNote.type == 3) {
+        // Move old parent IDs
+        for (final parentID in _chains.keys) {
+          if (parentID == oldNote.id) {
+            newChains[i] = _chains[parentID];
+            break;
+          }
+        }
+      }
+
+      // Move nextID of chains
+      // Triple loop happens here, but this uses nice syntax.
+      // May need Optimization if app is slow.
+      if (oldNote.type == 4) {
+        for (final parentID in newChains.keys) {
+          if (newChains[parentID].contains(oldNote.id)) {
+            var index = newChains[parentID].indexOf(oldNote.id);
+            newChains[parentID][index] = i;
+            break;
+          }
+        }
+      }
     }
+
+    _chains = newChains;
+    _applyNewChainToNoteList();
   }
 
-  /// Returns true and the origin
+  /// Returns true if map key exist and the origin of it.
   _Result<bool, int> _isRegisteredOnReIndexLinkID(int noteID) {
     for (final k in _reIndexLinkID.keys) {
       if (_reIndexLinkID[k] == noteID) return _Result(true, k);
     }
     return _Result(false, -1);
+  }
+
+  _applyNewChainToNoteList() {
+    for (final parentChainID in _chains.keys) {
+      _notes[parentChainID].nextID = _chains[parentChainID][0];
+      for (var i = 0; i < _chains[parentChainID].length; i++) {
+        var childChainID = _chains[parentChainID][i];
+        if (_chains[parentChainID][i] == _chains[parentChainID].last) {
+          _notes[childChainID].nextID = -1;
+        } else {
+          _notes[childChainID].nextID = _chains[parentChainID][i + 1];
+        }
+      }
+    }
   }
 }
 

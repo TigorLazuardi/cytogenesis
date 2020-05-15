@@ -71,3 +71,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  assets:
+    # Source: https://www.pixiv.net/en/artworks/66763968
+    - assets/

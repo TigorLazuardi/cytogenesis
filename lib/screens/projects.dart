@@ -184,3 +184,24 @@ class _ProjectRecentState extends State<_ProjectRecent> {
     );
   }
 }
+
+class _EmptyList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: <Widget>[
+          Center(child: _EmptyListImage()),
+          Center(child: Text('Empty List')),
+        ],
+      ),
+    );
+  }
+}
+
+class _EmptyListImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Image(image: AssetImage('assets/empty_list.jpg'));
+  }
+}

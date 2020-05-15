@@ -46,19 +46,18 @@ class Note {
 
 class NoteList {
   List<Note> _notes;
-  int count;
   Map<int, List<int>> _chains;
   Map<int, int> _reIndexLinkID;
 
   NoteList() {
     _notes = <Note>[];
     _chains = {};
-    count = 0;
   }
 
-  NoteList.fromJSON(Map<String, dynamic> noteList) {
+  NoteList.fromJSON(Map<String, dynamic> root) {
+    var noteList = root['note_list'];
+    var count = noteList.length;
     _chains = {};
-    count = noteList.length;
     for (var i = 0; i < count; i++) {
       var note = Note.fromJSON(noteList[i]);
       // Register new chain
@@ -85,13 +84,13 @@ class NoteList {
     }
   }
 
-  Map<String, dynamic> toJSON() {
+  List<Map<String, dynamic>> toJSON() {
     List<Map<String, dynamic>> marshalledNotes;
     marshal();
     for (var i = 0; i < _notes.length; i++) {
       marshalledNotes.add(_notes[i].toJSON());
     }
-    return {'note_list': marshalledNotes};
+    return marshalledNotes;
   }
 
   /// marshal sorts the notes by timestamp, deletes marked for deletion notes and re-indexes them.

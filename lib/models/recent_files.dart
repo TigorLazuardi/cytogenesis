@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 class RecentFile {
@@ -24,8 +25,7 @@ class RecentFile {
         assert(projectName != null),
         assert(cached != null);
 
-  RecentFile.fromJSON(String jsonString) {
-    final j = jsonDecode(jsonString);
+  RecentFile.fromJSON(Map<String, dynamic> j) {
     projectID = j['project_id'];
     projectName = j['project_name'];
     zipPath = j['zip_path'];
@@ -46,4 +46,22 @@ class RecentFile {
         'image_path': imagePath,
         'meta_path': metaPath,
       };
+}
+
+class RecentFileList {
+  List<RecentFile> _recentFiles;
+  RecentFileList() : _recentFiles = <RecentFile>[];
+
+  RecentFileList.fromJSON(String jsonString) {
+    final j = jsonDecode(jsonString);
+    for (var i = 0; i < j.length; i++) {
+      _recentFiles.add(RecentFile.fromJSON(j[i]));
+    }
+  }
+
+  String toJSON() {
+    List<Map<String, dynamic>> marshalledRecentList;
+    _recentFiles.forEach((re) => marshalledRecentList.add(re.toJson()));
+    return jsonEncode(marshalledRecentList);
+  }
 }

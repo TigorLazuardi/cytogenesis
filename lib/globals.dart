@@ -33,3 +33,9 @@ class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size(0.0, 0.0);
 }
+
+class Result<T, V> {
+  T ok;
+  V value;
+  Result(this.ok, this.value);
+}

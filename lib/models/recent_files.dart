@@ -1,6 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
+
+import '../globals.dart';
 
 class RecentFile {
   String projectID;
@@ -49,19 +53,32 @@ class RecentFile {
 }
 
 class RecentFileList {
-  List<RecentFile> _recentFiles;
-  RecentFileList() : _recentFiles = <RecentFile>[];
+  List<RecentFile> recentFiles;
+  RecentFileList();
+  Future<Result<bool, String>> load() async {
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('$dir/recent_files.json');
 
-  RecentFileList.fromJSON(String jsonString) {
+    try {
+      _marshal(await file.readAsString());
+      return Result(true, "Load file success.");
+    } catch (e) {
+      // TODO: Clear this print
+      print(e);
+      return Result(false, "File not found");
+    }
+  }
+
+  _marshal(String jsonString) {
     final j = jsonDecode(jsonString);
     for (var i = 0; i < j.length; i++) {
-      _recentFiles.add(RecentFile.fromJSON(j[i]));
+      recentFiles.add(RecentFile.fromJSON(j[i]));
     }
   }
 
   String toJSON() {
     List<Map<String, dynamic>> marshalledRecentList;
-    _recentFiles.forEach((re) => marshalledRecentList.add(re.toJson()));
+    recentFiles.forEach((re) => marshalledRecentList.add(re.toJson()));
     return jsonEncode(marshalledRecentList);
   }
 }

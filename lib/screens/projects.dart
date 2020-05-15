@@ -1,5 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:community_material_icon/community_material_icon.dart';
+import 'package:universal_html/html.dart' as html;
+import 'package:url_launcher/url_launcher.dart';
 
 class ProjectScreen extends StatelessWidget {
   @override
@@ -8,9 +12,29 @@ class ProjectScreen extends StatelessWidget {
       DeviceOrientation.portraitUp,
     ]);
     return Scaffold(
-      // appBar: EmptyAppBar(),
       appBar: AppBar(
         title: Text('CytoGenesis'),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: IconButton(
+              icon: Icon(
+                CommunityMaterialIcons.github_circle,
+                size: 36,
+              ),
+              onPressed: () async {
+                String url = 'https://github.com/TigorLazuardi/cytogenesis';
+                if (kIsWeb) {
+                  html.window.open(url, '_blank');
+                } else {
+                  if (await canLaunch(url)) {
+                    launch(url);
+                  }
+                }
+              },
+            ),
+          ),
+        ],
       ),
       body: _BodyColumn(),
     );
@@ -25,7 +49,6 @@ class _BodyColumn extends StatelessWidget {
         Container(
           height: 50,
           child: _TopRow(),
-          // margin: EdgeInsets.only(bottom: 5),
         ),
         Expanded(
           child: _ProjectRecent(),
@@ -60,14 +83,15 @@ class _TopRow extends StatelessWidget {
         Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            Container(
-              height: 50,
-              width: 4,
-              color: Colors.blue,
-            ),
+            // TODO: Glow Effect
             Container(
               height: 50,
               width: 2,
+              color: Colors.lightBlue,
+            ),
+            Container(
+              height: 50,
+              width: 1,
               decoration: new BoxDecoration(
                 color: Colors.white,
                 borderRadius: new BorderRadius.all(Radius.elliptical(75, 1000)),

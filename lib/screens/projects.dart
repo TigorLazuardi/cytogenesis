@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../globals.dart';
 
 class ProjectScreen extends StatelessWidget {
   @override
@@ -9,22 +8,26 @@ class ProjectScreen extends StatelessWidget {
       DeviceOrientation.portraitUp,
     ]);
     return Scaffold(
-      appBar: EmptyAppBar(),
-      body: BodyColumn(),
+      // appBar: EmptyAppBar(),
+      appBar: AppBar(
+        title: Text('CytoGenesis'),
+      ),
+      body: _BodyColumn(),
     );
   }
 }
 
-class BodyColumn extends StatelessWidget {
+class _BodyColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Expanded(
+        Container(
+          height: 50,
           child: _TopRow(),
+          // margin: EdgeInsets.only(bottom: 5),
         ),
         Expanded(
-          flex: 10,
           child: _ProjectRecent(),
         ),
       ],
@@ -33,30 +36,62 @@ class BodyColumn extends StatelessWidget {
 }
 
 class _TopRow extends StatelessWidget {
-  Expanded _buildTopRowChild(String text) => Expanded(
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: 4,
-              color: Colors.black87,
-            ),
-          ),
-          child: Center(
-            child: Text(
-              text,
-              style: TextStyle(color: Colors.black87),
-              textDirection: TextDirection.ltr,
-            ),
-          ),
-        ),
-      );
-
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        _buildTopRowChild('Create New'),
-        _buildTopRowChild('Open'),
+        Expanded(
+          child: Container(
+            height: 50,
+            child: FlatButton(
+              child: Text(
+                'Create New',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () => print('Create New Pressed'),
+              color: Colors.blue,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0),
+              ),
+            ),
+          ),
+        ),
+        Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Container(
+              height: 50,
+              width: 4,
+              color: Colors.blue,
+            ),
+            Container(
+              height: 50,
+              width: 2,
+              decoration: new BoxDecoration(
+                color: Colors.white,
+                borderRadius: new BorderRadius.all(Radius.elliptical(75, 1000)),
+              ),
+            ),
+          ],
+        ),
+        Expanded(
+          child: Container(
+            height: 50,
+            child: FlatButton(
+              child: Text(
+                'Open',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () => print('Open Pressed'),
+              color: Colors.blue,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -91,11 +126,10 @@ class _ProjectRecentState extends State<_ProjectRecent> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.all(8),
       children: <Widget>[
         Container(
           height: 50,
-          color: Colors.amber[1000],
+          color: Colors.amber[900],
           child: Center(child: Text('Count: $_count')),
         ),
         Container(

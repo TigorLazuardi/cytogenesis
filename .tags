@@ -60,10 +60,10 @@ UIMainStoryboardFile	ios/Runner/Info.plist	/^	<key>UIMainStoryboardFile<\/key>$/
 UISupportedInterfaceOrientations	ios/Runner/Info.plist	/^	<key>UISupportedInterfaceOrientations<\/key>$/;"	k
 UISupportedInterfaceOrientations~ipad	ios/Runner/Info.plist	/^	<key>UISupportedInterfaceOrientations~ipad<\/key>$/;"	k
 UIViewControllerBasedStatusBarAppearance	ios/Runner/Info.plist	/^	<key>UIViewControllerBasedStatusBarAppearance<\/key>$/;"	k
-android	android/app/src/debug/AndroidManifest.xml	/^    package="com.example.cytosynth">$/;"	n	uri:http://schemas.android.com/apk/res/android
-android	android/app/src/main/AndroidManifest.xml	/^    package="com.example.cytosynth">$/;"	n	uri:http://schemas.android.com/apk/res/android
+android	android/app/src/debug/AndroidManifest.xml	/^    package="crowfx.cytogenesis">$/;"	n	uri:http://schemas.android.com/apk/res/android
+android	android/app/src/main/AndroidManifest.xml	/^    package="crowfx.cytogenesis">$/;"	n	uri:http://schemas.android.com/apk/res/android
 android	android/app/src/main/res/drawable/launch_background.xml	/^<layer-list xmlns:android="http:\/\/schemas.android.com\/apk\/res\/android">$/;"	n	uri:http://schemas.android.com/apk/res/android
-android	android/app/src/profile/AndroidManifest.xml	/^    package="com.example.cytosynth">$/;"	n	uri:http://schemas.android.com/apk/res/android
+android	android/app/src/profile/AndroidManifest.xml	/^    package="crowfx.cytogenesis">$/;"	n	uri:http://schemas.android.com/apk/res/android
 android.enableJetifier	android/gradle.properties	/^android.enableJetifier=true$/;"	k
 android.enableR8	android/gradle.properties	/^android.enableR8=true$/;"	k
 android.useAndroidX	android/gradle.properties	/^android.useAndroidX=true$/;"	k

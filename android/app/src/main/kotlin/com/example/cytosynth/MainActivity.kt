@@ -1,4 +1,4 @@
-package com.example.cytosynth
+package crowfx.cytogenesis
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -130,18 +130,8 @@ class _ProjectRecent extends StatefulWidget {
 class _ProjectRecentState extends State<_ProjectRecent> {
   List<RecentFile> _recentFiles;
   RecentFileList _rfl;
-  String _message;
   bool isLoading;
 
-  // _updateList() async {
-  //   var rec = RecentFileList();
-  //   var res = await rec.load();
-  //   if (res.var1) {
-  //     setState(() {
-  //             _recentFiles = rec.recentFiles;
-  //           });
-  //   }
-  // }
   @override
   void initState() {
     super.initState();
@@ -154,7 +144,6 @@ class _ProjectRecentState extends State<_ProjectRecent> {
         });
       }
       setState(() {
-        _message = res.var2;
         isLoading = false;
       });
     });
@@ -193,9 +182,17 @@ class _EmptyList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Center(child: _EmptyListImage()),
-          Center(child: Text('Empty List')),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: _EmptyListImage(),
+            ),
+          ),
+          Expanded(
+            child: Center(child: Text('Empty List')),
+          ),
         ],
       ),
     );

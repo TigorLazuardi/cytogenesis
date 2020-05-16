@@ -1,0 +1,168 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/a3c87ab5/
+0	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+0	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^    {$/;"	o	array:images
+1	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+1	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^    {$/;"	o	array:images
+10	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+11	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+12	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+13	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+14	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+15	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+16	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+17	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+18	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+2	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+2	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^    {$/;"	o	array:images
+3	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+4	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+5	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+6	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+7	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+8	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+9	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    {$/;"	o	array:images
+CFBundleDevelopmentRegion	ios/Flutter/AppFrameworkInfo.plist	/^  <key>CFBundleDevelopmentRegion<\/key>$/;"	k
+CFBundleDevelopmentRegion	ios/Runner/Info.plist	/^	<key>CFBundleDevelopmentRegion<\/key>$/;"	k
+CFBundleExecutable	ios/Flutter/AppFrameworkInfo.plist	/^  <key>CFBundleExecutable<\/key>$/;"	k
+CFBundleExecutable	ios/Runner/Info.plist	/^	<key>CFBundleExecutable<\/key>$/;"	k
+CFBundleIdentifier	ios/Flutter/AppFrameworkInfo.plist	/^  <key>CFBundleIdentifier<\/key>$/;"	k
+CFBundleIdentifier	ios/Runner/Info.plist	/^	<key>CFBundleIdentifier<\/key>$/;"	k
+CFBundleInfoDictionaryVersion	ios/Flutter/AppFrameworkInfo.plist	/^  <key>CFBundleInfoDictionaryVersion<\/key>$/;"	k
+CFBundleInfoDictionaryVersion	ios/Runner/Info.plist	/^	<key>CFBundleInfoDictionaryVersion<\/key>$/;"	k
+CFBundleName	ios/Flutter/AppFrameworkInfo.plist	/^  <key>CFBundleName<\/key>$/;"	k
+CFBundleName	ios/Runner/Info.plist	/^	<key>CFBundleName<\/key>$/;"	k
+CFBundlePackageType	ios/Flutter/AppFrameworkInfo.plist	/^  <key>CFBundlePackageType<\/key>$/;"	k
+CFBundlePackageType	ios/Runner/Info.plist	/^	<key>CFBundlePackageType<\/key>$/;"	k
+CFBundleShortVersionString	ios/Flutter/AppFrameworkInfo.plist	/^  <key>CFBundleShortVersionString<\/key>$/;"	k
+CFBundleShortVersionString	ios/Runner/Info.plist	/^	<key>CFBundleShortVersionString<\/key>$/;"	k
+CFBundleSignature	ios/Flutter/AppFrameworkInfo.plist	/^  <key>CFBundleSignature<\/key>$/;"	k
+CFBundleSignature	ios/Runner/Info.plist	/^	<key>CFBundleSignature<\/key>$/;"	k
+CFBundleVersion	ios/Flutter/AppFrameworkInfo.plist	/^  <key>CFBundleVersion<\/key>$/;"	k
+CFBundleVersion	ios/Runner/Info.plist	/^	<key>CFBundleVersion<\/key>$/;"	k
+CytoGenesis	README.md	/^# CytoGenesis$/;"	c
+Developer Dependencies	README.md	/^# Developer Dependencies$/;"	c
+Getting Started	README.md	/^## Getting Started$/;"	s
+How to Run (Dev)	README.md	/^# How to Run (Dev)$/;"	c
+IDEDidComputeMac32BitWarning	ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist	/^	<key>IDEDidComputeMac32BitWarning<\/key>$/;"	k
+IDEDidComputeMac32BitWarning	ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist	/^	<key>IDEDidComputeMac32BitWarning<\/key>$/;"	k
+LSRequiresIPhoneOS	ios/Runner/Info.plist	/^	<key>LSRequiresIPhoneOS<\/key>$/;"	k
+Launch Screen Assets	ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md	/^# Launch Screen Assets$/;"	c
+MinimumOSVersion	ios/Flutter/AppFrameworkInfo.plist	/^  <key>MinimumOSVersion<\/key>$/;"	k
+UILaunchStoryboardName	ios/Runner/Info.plist	/^	<key>UILaunchStoryboardName<\/key>$/;"	k
+UIMainStoryboardFile	ios/Runner/Info.plist	/^	<key>UIMainStoryboardFile<\/key>$/;"	k
+UISupportedInterfaceOrientations	ios/Runner/Info.plist	/^	<key>UISupportedInterfaceOrientations<\/key>$/;"	k
+UISupportedInterfaceOrientations~ipad	ios/Runner/Info.plist	/^	<key>UISupportedInterfaceOrientations~ipad<\/key>$/;"	k
+UIViewControllerBasedStatusBarAppearance	ios/Runner/Info.plist	/^	<key>UIViewControllerBasedStatusBarAppearance<\/key>$/;"	k
+android	android/app/src/debug/AndroidManifest.xml	/^    package="com.example.cytosynth">$/;"	n	uri:http://schemas.android.com/apk/res/android
+android	android/app/src/main/AndroidManifest.xml	/^    package="com.example.cytosynth">$/;"	n	uri:http://schemas.android.com/apk/res/android
+android	android/app/src/main/res/drawable/launch_background.xml	/^<layer-list xmlns:android="http:\/\/schemas.android.com\/apk\/res\/android">$/;"	n	uri:http://schemas.android.com/apk/res/android
+android	android/app/src/profile/AndroidManifest.xml	/^    package="com.example.cytosynth">$/;"	n	uri:http://schemas.android.com/apk/res/android
+android.enableJetifier	android/gradle.properties	/^android.enableJetifier=true$/;"	k
+android.enableR8	android/gradle.properties	/^android.enableR8=true$/;"	k
+android.useAndroidX	android/gradle.properties	/^android.useAndroidX=true$/;"	k
+author	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    "author" : "xcode"$/;"	s	object:info
+author	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^    "author" : "xcode"$/;"	s	object:info
+distributionBase	android/gradle/wrapper/gradle-wrapper.properties	/^distributionBase=GRADLE_USER_HOME$/;"	k
+distributionPath	android/gradle/wrapper/gradle-wrapper.properties	/^distributionPath=wrapper\/dists$/;"	k
+distributionUrl	android/gradle/wrapper/gradle-wrapper.properties	/^distributionUrl=https\\:\/\/services.gradle.org\/distributions\/gradle-5.6.2-all.zip$/;"	k
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-1024x1024@1x.png",$/;"	s	object:images.18
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-20x20@1x.png",$/;"	s	object:images.9
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-20x20@2x.png",$/;"	s	object:images.0
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-20x20@2x.png",$/;"	s	object:images.10
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-20x20@3x.png",$/;"	s	object:images.1
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-29x29@1x.png",$/;"	s	object:images.11
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-29x29@1x.png",$/;"	s	object:images.2
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-29x29@2x.png",$/;"	s	object:images.12
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-29x29@2x.png",$/;"	s	object:images.3
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-29x29@3x.png",$/;"	s	object:images.4
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-40x40@1x.png",$/;"	s	object:images.13
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-40x40@2x.png",$/;"	s	object:images.14
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-40x40@2x.png",$/;"	s	object:images.5
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-40x40@3x.png",$/;"	s	object:images.6
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-60x60@2x.png",$/;"	s	object:images.7
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-60x60@3x.png",$/;"	s	object:images.8
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-76x76@1x.png",$/;"	s	object:images.15
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-76x76@2x.png",$/;"	s	object:images.16
+filename	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "filename" : "Icon-App-83.5x83.5@2x.png",$/;"	s	object:images.17
+filename	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^      "filename" : "LaunchImage.png",$/;"	s	object:images.0
+filename	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^      "filename" : "LaunchImage@2x.png",$/;"	s	object:images.1
+filename	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^      "filename" : "LaunchImage@3x.png",$/;"	s	object:images.2
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "ios-marketing",$/;"	s	object:images.18
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "ipad",$/;"	s	object:images.10
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "ipad",$/;"	s	object:images.11
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "ipad",$/;"	s	object:images.12
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "ipad",$/;"	s	object:images.13
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "ipad",$/;"	s	object:images.14
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "ipad",$/;"	s	object:images.15
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "ipad",$/;"	s	object:images.16
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "ipad",$/;"	s	object:images.17
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "ipad",$/;"	s	object:images.9
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "iphone",$/;"	s	object:images.0
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "iphone",$/;"	s	object:images.1
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "iphone",$/;"	s	object:images.2
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "iphone",$/;"	s	object:images.3
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "iphone",$/;"	s	object:images.4
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "iphone",$/;"	s	object:images.5
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "iphone",$/;"	s	object:images.6
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "iphone",$/;"	s	object:images.7
+idiom	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "idiom" : "iphone",$/;"	s	object:images.8
+idiom	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^      "idiom" : "universal",$/;"	s	object:images.0
+idiom	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^      "idiom" : "universal",$/;"	s	object:images.1
+idiom	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^      "idiom" : "universal",$/;"	s	object:images.2
+images	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^  "images" : [$/;"	a
+images	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^  "images" : [$/;"	a
+info	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^  "info" : {$/;"	o
+info	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^  "info" : {$/;"	o
+org.gradle.jvmargs	android/gradle.properties	/^org.gradle.jvmargs=-Xmx1536M$/;"	k
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "1x"$/;"	s	object:images.11
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "1x"$/;"	s	object:images.13
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "1x"$/;"	s	object:images.15
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "1x"$/;"	s	object:images.18
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "1x"$/;"	s	object:images.2
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "1x"$/;"	s	object:images.9
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "2x"$/;"	s	object:images.0
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "2x"$/;"	s	object:images.10
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "2x"$/;"	s	object:images.12
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "2x"$/;"	s	object:images.14
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "2x"$/;"	s	object:images.16
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "2x"$/;"	s	object:images.17
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "2x"$/;"	s	object:images.3
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "2x"$/;"	s	object:images.5
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "2x"$/;"	s	object:images.7
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "3x"$/;"	s	object:images.1
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "3x"$/;"	s	object:images.4
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "3x"$/;"	s	object:images.6
+scale	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "scale" : "3x"$/;"	s	object:images.8
+scale	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^      "scale" : "1x"$/;"	s	object:images.0
+scale	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^      "scale" : "2x"$/;"	s	object:images.1
+scale	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^      "scale" : "3x"$/;"	s	object:images.2
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "1024x1024",$/;"	s	object:images.18
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "20x20",$/;"	s	object:images.0
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "20x20",$/;"	s	object:images.1
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "20x20",$/;"	s	object:images.10
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "20x20",$/;"	s	object:images.9
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "29x29",$/;"	s	object:images.11
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "29x29",$/;"	s	object:images.12
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "29x29",$/;"	s	object:images.2
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "29x29",$/;"	s	object:images.3
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "29x29",$/;"	s	object:images.4
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "40x40",$/;"	s	object:images.13
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "40x40",$/;"	s	object:images.14
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "40x40",$/;"	s	object:images.5
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "40x40",$/;"	s	object:images.6
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "60x60",$/;"	s	object:images.7
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "60x60",$/;"	s	object:images.8
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "76x76",$/;"	s	object:images.15
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "76x76",$/;"	s	object:images.16
+size	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^      "size" : "83.5x83.5",$/;"	s	object:images.17
+version	ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json	/^    "version" : 1,$/;"	n	object:info
+version	ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json	/^    "version" : 1,$/;"	n	object:info
+zipStoreBase	android/gradle/wrapper/gradle-wrapper.properties	/^zipStoreBase=GRADLE_USER_HOME$/;"	k
+zipStorePath	android/gradle/wrapper/gradle-wrapper.properties	/^zipStorePath=wrapper\/dists$/;"	k

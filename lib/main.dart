@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/projects.dart';
+import 'package:CytoGenesis/screens/create_new.dart';
 
 void main() => runApp(Root());
 
@@ -11,6 +12,7 @@ class Root extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (BuildContext context) => ProjectScreen(),
+        '/create_new': (BuildContext context) => CreateNewProjectScreen(),
       },
     );
   }

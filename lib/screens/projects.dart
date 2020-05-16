@@ -1,7 +1,6 @@
 import 'package:CytoGenesis/models/recent_files.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
@@ -9,9 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 class ProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
     return Scaffold(
       appBar: AppBar(
         title: Text('CytoGenesis'),
@@ -72,7 +68,7 @@ class _TopRow extends StatelessWidget {
                 'Create New',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () => print('Create New Pressed'),
+              onPressed: () => Navigator.pushNamed(context, '/create_new'),
               color: Colors.blue,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               shape: RoundedRectangleBorder(

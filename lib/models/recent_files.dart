@@ -15,6 +15,7 @@ class RecentFile {
   String previewPath;
   String imagePath;
   String metaPath;
+  String lastOpen;
 
   RecentFile({
     @required this.projectID,
@@ -73,6 +74,7 @@ class RecentFileList {
     }
   }
 
+  /// Returns Cached on var1 and Uncached on var2
   Result<List<RecentFile>, List<RecentFile>> getByCache() {
     _verifyCache();
     var cached = recentFiles.where((rf) => rf.cached);

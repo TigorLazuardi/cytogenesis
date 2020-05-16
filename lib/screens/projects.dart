@@ -1,3 +1,4 @@
+import 'package:CytoGenesis/models/recent_files.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -127,60 +128,62 @@ class _ProjectRecent extends StatefulWidget {
 }
 
 class _ProjectRecentState extends State<_ProjectRecent> {
-  int _count = 0;
+  List<RecentFile> _recentFiles;
+  RecentFileList _rfl;
+  String _message;
+  bool isLoading;
 
-  void _increaseCount() {
-    setState(() {
-      _count++;
-    });
-  }
-
-  void _decreaseCount() {
-    setState(() {
-      _count--;
-    });
-  }
-
-  void _setCountZero() {
-    setState(() {
-      _count = 0;
+  // _updateList() async {
+  //   var rec = RecentFileList();
+  //   var res = await rec.load();
+  //   if (res.var1) {
+  //     setState(() {
+  //             _recentFiles = rec.recentFiles;
+  //           });
+  //   }
+  // }
+  @override
+  void initState() {
+    super.initState();
+    setState(() => isLoading = true);
+    _rfl = RecentFileList();
+    _rfl.load().then((res) {
+      if (res.var1) {
+        setState(() {
+          _recentFiles = _rfl.recentFiles;
+        });
+      }
+      setState(() {
+        _message = res.var2;
+        isLoading = false;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading)
+      return Center(
+        child: CircularProgressIndicator(
+          semanticsLabel: "Loading recent projects",
+        ),
+      );
+    if (_recentFiles == null || _recentFiles.length == 0) return _EmptyList();
+
+    List<Widget> children;
+    var list = _rfl.getByCache();
+    if (list.var1.length != 0) {
+      children.add(
+        Text('Cached Projects:'),
+      );
+      list.var1.forEach((rf) => children.add(Text(rf.projectName)));
+      children.add(
+        Text('Uncached Projects:'),
+      );
+    }
+    list.var2.forEach((rf) => children.add(Text(rf.projectName)));
     return ListView(
-      children: <Widget>[
-        Container(
-          height: 50,
-          color: Colors.amber[900],
-          child: Center(child: Text('Count: $_count')),
-        ),
-        Container(
-          height: 50,
-          color: Colors.amber[600],
-          child: FlatButton(
-            child: Center(child: Text('Increase Count')),
-            onPressed: _increaseCount,
-          ),
-        ),
-        Container(
-          height: 50,
-          color: Colors.amber[500],
-          child: FlatButton(
-            child: Center(child: Text('Decrease Count')),
-            onPressed: _decreaseCount,
-          ),
-        ),
-        Container(
-          height: 50,
-          color: Colors.amber[100],
-          child: FlatButton(
-            child: Center(child: Text('Set to 0')),
-            onPressed: _setCountZero,
-          ),
-        ),
-      ],
+      children: children,
     );
   }
 }

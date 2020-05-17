@@ -6,9 +6,18 @@ class CreateNewProjectScreen extends StatefulWidget {
 }
 
 class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
+  bool isModified = false;
+
+  setModifiedtoTrue() {
+    isModified = true;
+  }
+
+  setModifiedtoFalse() {
+    isModified = false;
+  }
+
   Future<bool> _onWillPop() async {
-    var formState = _ProjectForm.of(context);
-    if (formState?.isModified == true) {
+    if (isModified) {
       return (await showDialog(
             context: context,
             builder: (BuildContext context) => new AlertDialog(
@@ -55,15 +64,13 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
 }
 
 class _ProjectForm extends StatefulWidget {
-  static _ProjectFormState of(BuildContext context) =>
-      context.findAncestorStateOfType<_ProjectFormState>();
-
   @override
   _ProjectFormState createState() => _ProjectFormState();
 }
 
 class _ProjectFormState extends State<_ProjectForm> {
   bool isModified;
+  final formKey = GlobalKey<FormState>();
   final _charterController = TextEditingController(),
       _musicTitleController = TextEditingController(),
       _artistController = TextEditingController(),
@@ -76,8 +83,6 @@ class _ProjectFormState extends State<_ProjectForm> {
     caseSensitive: false,
     multiLine: false,
   );
-
-  final _formKey = GlobalKey<FormState>();
 
   TextStyle _hintStyle = TextStyle(
     color: Colors.grey[400],

@@ -8,7 +8,7 @@ class CreateNewProjectScreen extends StatefulWidget {
 class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
   Future<bool> _onWillPop() async {
     var formState = _ProjectForm.of(context);
-    if (formState?.modified == true) {
+    if (formState?.isModified == true) {
       return (await showDialog(
             context: context,
             builder: (BuildContext context) => new AlertDialog(
@@ -63,9 +63,103 @@ class _ProjectForm extends StatefulWidget {
 }
 
 class _ProjectFormState extends State<_ProjectForm> {
-  bool modified;
+  bool isModified;
+  final _charterController = TextEditingController(),
+      _musicTitleController = TextEditingController(),
+      _artistController = TextEditingController(),
+      _artistLocalizedController = TextEditingController(),
+      _projectIDController = TextEditingController(),
+      _musicTitleLocalizedController = TextEditingController();
+
+  RegExp _projectIDRegexTest = new RegExp(
+    r"^[\w\.\_\-\~]]*$",
+    caseSensitive: false,
+    multiLine: false,
+  );
+
+  final _formKey = GlobalKey<FormState>();
+
+  TextStyle _hintStyle = TextStyle(
+    color: Colors.grey[400],
+    fontSize: 13,
+  );
+
+  TextFormField _buildTextFormField({
+    String labelText,
+    String helperText,
+    String hintText,
+    TextEditingController controller,
+    String Function(String) validator,
+  }) =>
+      TextFormField(
+        decoration: InputDecoration(
+          labelText: labelText,
+          helperText: helperText,
+          hintText: hintText,
+          hintStyle: _hintStyle,
+        ),
+        controller: controller,
+      );
+
   @override
   Widget build(BuildContext context) {
-    return Text('TODO');
+    return Form(
+      child: Padding(
+        padding: EdgeInsets.only(left: 20, right: 20),
+        child: ListView(
+          children: <Widget>[
+            _buildTextFormField(
+              labelText: 'Charter',
+              helperText: 'Required',
+              hintText: 'Your Name',
+              controller: _charterController,
+              validator: (value) =>
+                  value.isEmpty ? "Charter name is required" : null,
+            ),
+            _buildTextFormField(
+              labelText: 'Music Title',
+              helperText: 'Required',
+              hintText: 'Title (Original Language)',
+              controller: _musicTitleController,
+              validator: (value) =>
+                  value.isEmpty ? "Music title is required" : null,
+            ),
+            _buildTextFormField(
+              labelText: 'Music Title (Localized)',
+              hintText: 'Title (English)',
+              controller: _musicTitleLocalizedController,
+            ),
+            _buildTextFormField(
+              labelText: 'Artist',
+              helperText: 'Required',
+              hintText: 'Artist (Original Language)',
+              controller: _artistController,
+              validator: (value) =>
+                  value.isEmpty ? "Music title is required" : null,
+            ),
+            _buildTextFormField(
+              labelText: 'Artst (Localized)',
+              hintText: 'Artist (English)',
+              controller: _artistLocalizedController,
+            ),
+            _buildTextFormField(
+              labelText: 'Project ID',
+              helperText: 'Required',
+              hintText: 'Naming convention: (charter).(music_title)',
+              controller: _projectIDController,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Project ID is required';
+                }
+                if (!_projectIDRegexTest.hasMatch(value)) {
+                  return 'Project ID only supports Alphanumerics and "_" / "." / "-" / "~"';
+                }
+                return null;
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

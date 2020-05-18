@@ -1,4 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+
+const _artist = 'artist';
+const _artistLocal = 'artist_localized';
+const _artistSource = 'artist_source';
+const _charter = 'charter';
+const _illustrator = 'illustrator';
+const _illustratorSource = 'illustrator_source';
+const _musicTitle = 'title';
+const _musicTitleLocal = 'title_localized';
+const _projectID = 'id';
 
 class CreateNewProjectScreen extends StatefulWidget {
   @override
@@ -57,26 +68,46 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
             ),
           ],
         ),
-        body: _ProjectForm(),
+        body: _ProjectForm(
+          setModifiedtoFalse: setModifiedtoFalse,
+          setModifiedtoTrue: setModifiedtoTrue,
+        ),
       ),
     );
   }
 }
 
 class _ProjectForm extends StatefulWidget {
+  final Function setModifiedtoFalse;
+  final Function setModifiedtoTrue;
+  _ProjectForm({this.setModifiedtoFalse, this.setModifiedtoTrue});
+
   @override
-  _ProjectFormState createState() => _ProjectFormState();
+  _ProjectFormState createState() {
+    return _ProjectFormState(
+        cbToFalse: setModifiedtoFalse, cbToTrue: setModifiedtoTrue);
+  }
 }
 
 class _ProjectFormState extends State<_ProjectForm> {
   bool isModified;
+  final Function cbToFalse;
+  final Function cbToTrue;
   final formKey = GlobalKey<FormState>();
-  final _charterController = TextEditingController(),
-      _musicTitleController = TextEditingController(),
-      _artistController = TextEditingController(),
-      _artistLocalizedController = TextEditingController(),
-      _projectIDController = TextEditingController(),
-      _musicTitleLocalizedController = TextEditingController();
+
+  Map<String, TextEditingController> _controllers = {
+    _artist: TextEditingController(),
+    _artistLocal: TextEditingController(),
+    _artistSource: TextEditingController(),
+    _charter: TextEditingController(),
+    _illustrator: TextEditingController(),
+    _illustratorSource: TextEditingController(),
+    _musicTitle: TextEditingController(),
+    _musicTitleLocal: TextEditingController(),
+    _projectID: TextEditingController(),
+  };
+
+  _ProjectFormState({this.cbToFalse, this.cbToTrue});
 
   RegExp _projectIDRegexTest = new RegExp(
     r"^[\w\.\_\-\~]]*$",
@@ -90,21 +121,42 @@ class _ProjectFormState extends State<_ProjectForm> {
   );
 
   TextFormField _buildTextFormField({
-    String labelText,
+    @required String labelText,
+    @required TextEditingController controller,
     String helperText,
     String hintText,
-    TextEditingController controller,
     String Function(String) validator,
-  }) =>
-      TextFormField(
-        decoration: InputDecoration(
-          labelText: labelText,
-          helperText: helperText,
-          hintText: hintText,
-          hintStyle: _hintStyle,
-        ),
-        controller: controller,
-      );
+  }) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: labelText,
+        helperText: helperText,
+        hintText: hintText,
+        hintStyle: _hintStyle,
+      ),
+      controller: controller,
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    for (final k in _controllers.keys) {
+      _controllers[k].addListener(() {
+        if (_controllers[k].text.isNotEmpty) {
+          cbToTrue();
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    for (final k in _controllers.keys) {
+      _controllers[k].dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +169,7 @@ class _ProjectFormState extends State<_ProjectForm> {
               labelText: 'Charter',
               helperText: 'Required',
               hintText: 'Your Name',
-              controller: _charterController,
+              controller: _controllers[_charter],
               validator: (value) =>
                   value.isEmpty ? "Charter name is required" : null,
             ),
@@ -125,33 +177,33 @@ class _ProjectFormState extends State<_ProjectForm> {
               labelText: 'Music Title',
               helperText: 'Required',
               hintText: 'Title (Original Language)',
-              controller: _musicTitleController,
+              controller: _controllers[_musicTitle],
               validator: (value) =>
                   value.isEmpty ? "Music title is required" : null,
             ),
             _buildTextFormField(
               labelText: 'Music Title (Localized)',
               hintText: 'Title (English)',
-              controller: _musicTitleLocalizedController,
+              controller: _controllers[_musicTitleLocal],
             ),
             _buildTextFormField(
-              labelText: 'Artist',
+              labelText: 'Music Artist',
               helperText: 'Required',
               hintText: 'Artist (Original Language)',
-              controller: _artistController,
+              controller: _controllers[_artist],
               validator: (value) =>
                   value.isEmpty ? "Music title is required" : null,
             ),
             _buildTextFormField(
-              labelText: 'Artst (Localized)',
+              labelText: 'Music Artist (Localized)',
               hintText: 'Artist (English)',
-              controller: _artistLocalizedController,
+              controller: _controllers[_artistLocal],
             ),
             _buildTextFormField(
               labelText: 'Project ID',
               helperText: 'Required',
               hintText: 'Naming convention: (charter).(music_title)',
-              controller: _projectIDController,
+              controller: _controllers[_projectID],
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Project ID is required';

@@ -25,6 +25,7 @@ dependencies:
   path_provider: ^1.6.8
   community_material_icon: ^3.5.0
   universal_html: ^1.2.1
+  file_picker: ^1.7.1
   flutter:
     sdk: flutter
 

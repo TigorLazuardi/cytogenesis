@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -7,6 +10,9 @@ const _artistSource = 'artist_source';
 const _charter = 'charter';
 const _illustrator = 'illustrator';
 const _illustratorSource = 'illustrator_source';
+const _backgroundPath = 'background_path';
+const _musicPath = 'music_path';
+const _previewPath = 'preview_path';
 const _musicTitle = 'title';
 const _musicTitleLocal = 'title_localized';
 const _projectID = 'id';
@@ -18,6 +24,8 @@ class CreateNewProjectScreen extends StatefulWidget {
 
 class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
   bool isModified = false;
+  GlobalKey<FormState> formKey;
+  String projectTitle = 'New Project';
 
   setModifiedtoTrue() {
     isModified = true;
@@ -25,6 +33,20 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
 
   setModifiedtoFalse() {
     isModified = false;
+  }
+
+  setGlobalKey(GlobalKey<FormState> key) {
+    formKey = key;
+  }
+
+  setProjectTitle(String title) {
+    setState(() {
+      if (title.isEmpty) {
+        projectTitle = 'New Project';
+      } else {
+        projectTitle = title;
+      }
+    });
   }
 
   Future<bool> _onWillPop() async {
@@ -37,11 +59,11 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
               actions: <Widget>[
                 new FlatButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: new Text('Cancel'),
+                  child: Text('Cancel'),
                 ),
                 new FlatButton(
                   onPressed: () => Navigator.of(context).pop(true),
-                  child: new Text('Yes'),
+                  child: Text('Yes'),
                 ),
               ],
             ),
@@ -57,7 +79,7 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('New Project'),
+          title: Text(projectTitle, overflow: TextOverflow.ellipsis),
           actions: <Widget>[
             FlatButton(
               child: Text(
@@ -71,6 +93,7 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
         body: _ProjectForm(
           setModifiedtoFalse: setModifiedtoFalse,
           setModifiedtoTrue: setModifiedtoTrue,
+          setProjectTitle: setProjectTitle,
         ),
       ),
     );
@@ -80,12 +103,16 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
 class _ProjectForm extends StatefulWidget {
   final Function setModifiedtoFalse;
   final Function setModifiedtoTrue;
-  _ProjectForm({this.setModifiedtoFalse, this.setModifiedtoTrue});
+  final Function setProjectTitle;
+  _ProjectForm(
+      {this.setModifiedtoFalse, this.setModifiedtoTrue, this.setProjectTitle});
 
   @override
   _ProjectFormState createState() {
     return _ProjectFormState(
-        cbToFalse: setModifiedtoFalse, cbToTrue: setModifiedtoTrue);
+        cbToFalse: setModifiedtoFalse,
+        cbToTrue: setModifiedtoTrue,
+        setProjectTitle: setProjectTitle);
   }
 }
 
@@ -93,7 +120,11 @@ class _ProjectFormState extends State<_ProjectForm> {
   bool isModified;
   final Function cbToFalse;
   final Function cbToTrue;
+  final Function(String) setProjectTitle;
   final formKey = GlobalKey<FormState>();
+  File _imageFile;
+  String _backgroundImagePath = 'Background Image';
+  File _musicFile;
 
   Map<String, TextEditingController> _controllers = {
     _artist: TextEditingController(),
@@ -104,10 +135,13 @@ class _ProjectFormState extends State<_ProjectForm> {
     _illustratorSource: TextEditingController(),
     _musicTitle: TextEditingController(),
     _musicTitleLocal: TextEditingController(),
+    _backgroundPath: TextEditingController(),
+    _musicPath: TextEditingController(),
+    _previewPath: TextEditingController(),
     _projectID: TextEditingController(),
   };
 
-  _ProjectFormState({this.cbToFalse, this.cbToTrue});
+  _ProjectFormState({this.cbToFalse, this.cbToTrue, this.setProjectTitle});
 
   RegExp _projectIDRegexTest = new RegExp(
     r"^[\w\.\_\-\~]]*$",
@@ -138,6 +172,24 @@ class _ProjectFormState extends State<_ProjectForm> {
     );
   }
 
+  _setImage() async {
+    var img = await FilePicker.getFile(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png'],
+    );
+    if (img != null) {
+      _controllers[_musicPath].text = img.path;
+      setState(() {
+        _backgroundImagePath = 'Image: ' + img.path.split('/').last;
+        _imageFile = img;
+      });
+    } else {
+      setState(() {
+        _backgroundImagePath = 'Background Image';
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -148,6 +200,9 @@ class _ProjectFormState extends State<_ProjectForm> {
         }
       });
     }
+    _controllers[_musicTitle].addListener(() {
+      setProjectTitle(_controllers[_musicTitle].text);
+    });
   }
 
   @override
@@ -214,6 +269,58 @@ class _ProjectFormState extends State<_ProjectForm> {
                 return null;
               },
             ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextFormField(
+                    enabled: false,
+                    decoration: InputDecoration(
+                      labelText: _backgroundImagePath,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: FlatButton(
+                    child: Text('Open', style: TextStyle(color: Colors.white)),
+                    onPressed: _setImage,
+                    color: Colors.blue,
+                  ),
+                  margin: EdgeInsets.only(left: 10),
+                ),
+              ],
+            ),
+            _imageFile == null
+                ? GestureDetector(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black87,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      padding: EdgeInsets.all(4),
+                      child: Center(child: Text('No Image Set')),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height / 4,
+                    ),
+                    onTap: _setImage,
+                  )
+                : Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black87,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                    padding: EdgeInsets.all(4),
+                    child: Image.file(
+                      _imageFile,
+                      fit: BoxFit.contain,
+                    ),
+                    width: MediaQuery.of(context).size.width,
+                  ),
           ],
         ),
       ),

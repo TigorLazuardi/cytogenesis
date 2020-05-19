@@ -24,44 +24,27 @@ class CreateNewProjectScreen extends StatefulWidget {
 
 class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
   bool isModified = false;
-  GlobalKey<FormState> formKey;
   String projectTitle = 'New Project';
+  GlobalKey<FormState> formKey;
 
-  setModifiedtoTrue() {
-    isModified = true;
-  }
-
-  setModifiedtoFalse() {
-    isModified = false;
-  }
-
-  setGlobalKey(GlobalKey<FormState> key) {
-    formKey = key;
-  }
-
-  setProjectTitle(String title) {
-    setState(() {
-      if (title.isEmpty) {
-        projectTitle = 'New Project';
-      } else {
-        projectTitle = title;
-      }
-    });
-  }
+  setModifiedtoTrue() => isModified = true;
+  setProjectTitle(String title) => setState(() =>
+      title.isEmpty ? projectTitle = 'New Project' : projectTitle = title);
+  setFormKey(GlobalKey<FormState> key) => formKey = key;
 
   Future<bool> _onWillPop() async {
     if (isModified) {
       return (await showDialog(
             context: context,
-            builder: (BuildContext context) => new AlertDialog(
-              title: new Text('Are you sure?'),
-              content: new Text('Unsaved changes will be lost'),
+            builder: (BuildContext context) => AlertDialog(
+              title: Text('Are you sure?'),
+              content: Text('Unsaved changes will be lost'),
               actions: <Widget>[
-                new FlatButton(
+                FlatButton(
                   onPressed: () => Navigator.of(context).pop(false),
                   child: Text('Cancel'),
                 ),
-                new FlatButton(
+                FlatButton(
                   onPressed: () => Navigator.of(context).pop(true),
                   child: Text('Yes'),
                 ),
@@ -82,18 +65,18 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
           title: Text(projectTitle, overflow: TextOverflow.ellipsis),
           actions: <Widget>[
             FlatButton(
-              child: Text(
-                'NEXT',
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () {},
+              child: Text('NEXT'),
+              onPressed: () {
+                if (formKey.currentState.validate()) {}
+              },
+              textColor: Colors.white,
             ),
           ],
         ),
         body: _ProjectForm(
-          setModifiedtoFalse: setModifiedtoFalse,
           setModifiedtoTrue: setModifiedtoTrue,
           setProjectTitle: setProjectTitle,
+          setFormKey: setFormKey,
         ),
       ),
     );
@@ -101,26 +84,30 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
 }
 
 class _ProjectForm extends StatefulWidget {
-  final Function setModifiedtoFalse;
   final Function setModifiedtoTrue;
   final Function setProjectTitle;
-  _ProjectForm(
-      {this.setModifiedtoFalse, this.setModifiedtoTrue, this.setProjectTitle});
+  final Function(GlobalKey<FormState>) setFormKey;
+  _ProjectForm({
+    this.setModifiedtoTrue,
+    this.setProjectTitle,
+    this.setFormKey,
+  });
 
   @override
   _ProjectFormState createState() {
     return _ProjectFormState(
-        cbToFalse: setModifiedtoFalse,
-        cbToTrue: setModifiedtoTrue,
-        setProjectTitle: setProjectTitle);
+      cbToTrue: setModifiedtoTrue,
+      setProjectTitle: setProjectTitle,
+      setFormKey: setFormKey,
+    );
   }
 }
 
 class _ProjectFormState extends State<_ProjectForm> {
   bool isModified;
-  final Function cbToFalse;
   final Function cbToTrue;
   final Function(String) setProjectTitle;
+  final Function(GlobalKey<FormState>) setFormKey;
   final formKey = GlobalKey<FormState>();
   File _imageFile;
   String _backgroundImagePath = 'Background Image';
@@ -142,10 +129,14 @@ class _ProjectFormState extends State<_ProjectForm> {
     _projectID: TextEditingController(),
   };
 
-  _ProjectFormState({this.cbToFalse, this.cbToTrue, this.setProjectTitle});
+  _ProjectFormState({
+    this.cbToTrue,
+    this.setProjectTitle,
+    this.setFormKey,
+  });
 
   RegExp _projectIDRegexTest = new RegExp(
-    r"^[\w\.\_\-\~]]*$",
+    r"^[\w\.\-\_\~]*$",
     caseSensitive: false,
     multiLine: false,
   );
@@ -154,24 +145,6 @@ class _ProjectFormState extends State<_ProjectForm> {
     color: Colors.grey[400],
     fontSize: 13,
   );
-
-  TextFormField _buildTextFormField({
-    @required String labelText,
-    @required TextEditingController controller,
-    String helperText,
-    String hintText,
-    String Function(String) validator,
-  }) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: labelText,
-        helperText: helperText,
-        hintText: hintText,
-        hintStyle: _hintStyle,
-      ),
-      controller: controller,
-    );
-  }
 
   _setImage() async {
     var img = await FilePicker.getFile(
@@ -229,6 +202,7 @@ class _ProjectFormState extends State<_ProjectForm> {
   @override
   void initState() {
     super.initState();
+    setFormKey(formKey);
     for (final k in _controllers.keys) {
       _controllers[k].addListener(() {
         if (_controllers[k].text.isNotEmpty) {
@@ -251,83 +225,63 @@ class _ProjectFormState extends State<_ProjectForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      child: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20),
-        child: ListView(
-          children: <Widget>[
-            _buildTextFormField(
-              labelText: 'Charter',
-              helperText: 'Required',
-              hintText: 'Your Name',
-              controller: _controllers[_charter],
-              validator: (value) =>
-                  value.isEmpty ? "Charter name is required" : null,
-            ),
-            _buildTextFormField(
-              labelText: 'Music Title',
-              helperText: 'Required',
-              hintText: 'Title (Original Language)',
-              controller: _controllers[_musicTitle],
-              validator: (value) =>
-                  value.isEmpty ? "Music title is required" : null,
-            ),
-            _buildTextFormField(
-              labelText: 'Music Title (Localized)',
-              hintText: 'Title (English)',
-              controller: _controllers[_musicTitleLocal],
-            ),
-            _buildTextFormField(
-              labelText: 'Music Artist',
-              helperText: 'Required',
-              hintText: 'Artist (Original Language)',
-              controller: _controllers[_artist],
-              validator: (value) =>
-                  value.isEmpty ? "Music title is required" : null,
-            ),
-            _buildTextFormField(
-              labelText: 'Music Artist (Localized)',
-              hintText: 'Artist (English)',
-              controller: _controllers[_artistLocal],
-            ),
-            _buildTextFormField(
-              labelText: 'Project ID',
-              helperText: 'Required',
-              hintText: 'Naming convention: (charter).(music_title)',
-              controller: _controllers[_projectID],
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Project ID is required';
-                }
-                if (!_projectIDRegexTest.hasMatch(value)) {
-                  return 'Project ID only supports Alphanumerics and "_" / "." / "-" / "~"';
-                }
-                return null;
-              },
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextFormField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText: _backgroundImagePath,
+    return SingleChildScrollView(
+      child: Form(
+        key: formKey,
+        child: Padding(
+          padding: EdgeInsets.only(left: 20, right: 20),
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Charter',
+                  helperText: 'Required.',
+                  hintText: 'Your name',
+                  hintStyle: _hintStyle,
+                ),
+                controller: _controllers[_charter],
+                validator: (String value) =>
+                    value.isEmpty ? 'Charter is required.' : null,
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextFormField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        labelText: _musicTextBox,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: FlatButton(
-                    child: Text('Open', style: TextStyle(color: Colors.white)),
-                    onPressed: _setImage,
-                    color: Colors.blue,
+                  Container(
+                    child: FlatButton(
+                      child:
+                          Text('Open', style: TextStyle(color: Colors.white)),
+                      onPressed: _setMusic,
+                      color: Colors.blue,
+                    ),
+                    margin: EdgeInsets.only(left: 10),
                   ),
-                  margin: EdgeInsets.only(left: 10),
-                ),
-              ],
-            ),
-            _imageFile == null
-                ? GestureDetector(
-                    child: Container(
+                ],
+              ),
+              _musicFile == null
+                  ? GestureDetector(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black87,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        padding: EdgeInsets.all(4),
+                        child: Center(child: Text('No Music Set')),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height / 8,
+                      ),
+                      onTap: _setImage,
+                    )
+                  : Container(
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.black87,
@@ -336,84 +290,126 @@ class _ProjectFormState extends State<_ProjectForm> {
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
                       padding: EdgeInsets.all(4),
-                      child: Center(child: Text('No Image Set')),
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 4,
-                    ),
-                    onTap: _setImage,
-                  )
-                : Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black87,
-                        width: 1,
+                      // TODO: Set Music Player
+                      child: Center(
+                        child: Text('Music is set but Player not installed.'),
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                    ),
-                    padding: EdgeInsets.all(4),
-                    child: Image.file(
-                      _imageFile,
-                      fit: BoxFit.contain,
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                  ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextFormField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText: _musicTextBox,
-                    ),
-                  ),
-                ),
-                Container(
-                  child: FlatButton(
-                    child: Text('Open', style: TextStyle(color: Colors.white)),
-                    onPressed: _setMusic,
-                    color: Colors.blue,
-                  ),
-                  margin: EdgeInsets.only(left: 10),
-                ),
-              ],
-            ),
-            _musicFile == null
-                ? GestureDetector(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black87,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                      ),
-                      padding: EdgeInsets.all(4),
-                      child: Center(child: Text('No Music Set')),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height / 8,
                     ),
-                    onTap: _setImage,
-                  )
-                : Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black87,
-                        width: 1,
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Music Title',
+                  helperText: 'Required.',
+                  hintText: 'Title (Original language)',
+                  hintStyle: _hintStyle,
+                ),
+                controller: _controllers[_musicTitle],
+                validator: (String value) =>
+                    value.isEmpty ? 'Music title is required.' : null,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Music Title (Localized)',
+                  hintText: 'Title (english)',
+                  hintStyle: _hintStyle,
+                ),
+                controller: _controllers[_musicTitleLocal],
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Music Artist',
+                  helperText: 'Required.',
+                  hintText: 'Artist (Original Language)',
+                  hintStyle: _hintStyle,
+                ),
+                controller: _controllers[_artist],
+                validator: (value) =>
+                    value.isEmpty ? 'Music artist is required.' : null,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Music Artist (Localized)',
+                  hintText: 'Artist (English)',
+                  hintStyle: _hintStyle,
+                ),
+                controller: _controllers[_artistLocal],
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextFormField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        labelText: _backgroundImagePath,
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
-                    padding: EdgeInsets.all(4),
-                    // TODO: Set Music Player
-                    child: Center(
-                      child: Text('Music is set but Player not installed.'),
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 8,
                   ),
-            Container(
-              height: MediaQuery.of(context).size.height / 20,
-            ),
-          ],
+                  Container(
+                    child: FlatButton(
+                      child:
+                          Text('Open', style: TextStyle(color: Colors.white)),
+                      onPressed: _setImage,
+                      color: Colors.blue,
+                    ),
+                    margin: EdgeInsets.only(left: 10),
+                  ),
+                ],
+              ),
+              _imageFile == null
+                  ? GestureDetector(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black87,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        padding: EdgeInsets.all(4),
+                        child: Center(child: Text('No Image Set')),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height / 4,
+                      ),
+                      onTap: _setImage,
+                    )
+                  : Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black87,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      padding: EdgeInsets.all(4),
+                      child: Image.file(
+                        _imageFile,
+                        fit: BoxFit.contain,
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                    ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Project ID',
+                  helperText: 'Required.',
+                  hintText: 'Naming convention: (charter).(music_title)',
+                ),
+                controller: _controllers[_projectID],
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Project ID is required.';
+                  }
+                  if (!_projectIDRegexTest.hasMatch(value)) {
+                    return 'Project ID only supports Alphanumerics and "_" / "." / "-" / "~"';
+                  }
+                  return null;
+                },
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height / 50,
+              ),
+            ],
+          ),
         ),
       ),
     );

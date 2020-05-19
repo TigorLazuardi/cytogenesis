@@ -202,13 +202,12 @@ class _ProjectFormState extends State<_ProjectForm> {
         await showDialog(
           context: context,
           builder: (BuildContext context) => new AlertDialog(
-            title: new Text('Unsupported File Format'),
-            content:
-                new Text('Format other than MP3 will be formatted as one.'),
+            title: Text('Unsupported File Format'),
+            content: Text('Format other than MP3 will be formatted as one.'),
             actions: <Widget>[
-              new FlatButton(
+              FlatButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Ok'),
+                child: Text('OK'),
               ),
             ],
           ),

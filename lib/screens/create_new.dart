@@ -124,6 +124,7 @@ class _ProjectFormState extends State<_ProjectForm> {
   final formKey = GlobalKey<FormState>();
   File _imageFile;
   String _backgroundImagePath = 'Background Image';
+  String _musicTextBox = 'Music';
   File _musicFile;
 
   Map<String, TextEditingController> _controllers = {
@@ -178,14 +179,50 @@ class _ProjectFormState extends State<_ProjectForm> {
       allowedExtensions: ['jpg', 'jpeg', 'png'],
     );
     if (img != null) {
-      _controllers[_musicPath].text = img.path;
+      _controllers[_backgroundPath].text = img.path;
       setState(() {
         _backgroundImagePath = 'Image: ' + img.path.split('/').last;
         _imageFile = img;
       });
     } else {
+      _controllers[_backgroundPath].text = "";
       setState(() {
         _backgroundImagePath = 'Background Image';
+      });
+    }
+  }
+
+  _setMusic() async {
+    var music = await FilePicker.getFile(
+      type: FileType.audio,
+    );
+    if (music != null) {
+      var filename = music.path.split('/').last;
+      if (!filename.endsWith('.mp3')) {
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) => new AlertDialog(
+            title: new Text('Unsupported File Format'),
+            content:
+                new Text('Format other than MP3 will be formatted as one.'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Ok'),
+              ),
+            ],
+          ),
+        );
+      }
+      _controllers[_musicPath].text = music.path;
+      setState(() {
+        _musicTextBox = 'Music: ' + filename;
+        _musicFile = music;
+      });
+    } else {
+      _controllers[_musicPath].text = "";
+      setState(() {
+        _musicTextBox = 'Music';
       });
     }
   }
@@ -321,6 +358,62 @@ class _ProjectFormState extends State<_ProjectForm> {
                     ),
                     width: MediaQuery.of(context).size.width,
                   ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextFormField(
+                    enabled: false,
+                    decoration: InputDecoration(
+                      labelText: _musicTextBox,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: FlatButton(
+                    child: Text('Open', style: TextStyle(color: Colors.white)),
+                    onPressed: _setMusic,
+                    color: Colors.blue,
+                  ),
+                  margin: EdgeInsets.only(left: 10),
+                ),
+              ],
+            ),
+            _musicFile == null
+                ? GestureDetector(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black87,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      padding: EdgeInsets.all(4),
+                      child: Center(child: Text('No Music Set')),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height / 8,
+                    ),
+                    onTap: _setImage,
+                  )
+                : Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black87,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                    padding: EdgeInsets.all(4),
+                    // TODO: Set Music Player
+                    child: Center(
+                      child: Text('Music is set but Player not installed.'),
+                    ),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 8,
+                  ),
+            Container(
+              height: MediaQuery.of(context).size.height / 20,
+            ),
           ],
         ),
       ),

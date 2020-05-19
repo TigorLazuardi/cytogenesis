@@ -400,8 +400,7 @@ class _ProjectFormState extends State<_ProjectForm> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Illutration Source',
-                  helperText:
-                      'Required. Prepend with "Original" for self-made content.',
+                  helperText: 'Required. Use "Original" for self-made content.',
                   hintText: 'URL where the image can be found.',
                   hintStyle: _hintStyle,
                 ),
@@ -411,7 +410,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                     return 'Illustration source cannot be empty';
                   }
                   if (!_urlRegexTest.hasMatch(value)) {
-                    return 'Invalid URL. Prepend with "Original" for self made content.';
+                    return 'Invalid URL. Use "Original" for self made content.';
                   }
                   return null;
                 },

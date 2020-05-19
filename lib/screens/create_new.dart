@@ -123,9 +123,6 @@ class _ProjectFormState extends State<_ProjectForm> {
     _illustratorSource: TextEditingController(),
     _musicTitle: TextEditingController(),
     _musicTitleLocal: TextEditingController(),
-    _backgroundPath: TextEditingController(),
-    _musicPath: TextEditingController(),
-    _previewPath: TextEditingController(),
     _projectID: TextEditingController(),
   };
 
@@ -137,6 +134,11 @@ class _ProjectFormState extends State<_ProjectForm> {
 
   RegExp _projectIDRegexTest = new RegExp(
     r"^[\w\.\-\_\~]*$",
+    caseSensitive: false,
+    multiLine: false,
+  ),
+      _urlRegexTest = new RegExp(
+    r"(^ftp\:\/\/|^https?\:\/\/|^Original)",
     caseSensitive: false,
     multiLine: false,
   );
@@ -152,13 +154,11 @@ class _ProjectFormState extends State<_ProjectForm> {
       allowedExtensions: ['jpg', 'jpeg', 'png'],
     );
     if (img != null) {
-      _controllers[_backgroundPath].text = img.path;
       setState(() {
         _backgroundImagePath = 'Image: ' + img.path.split('/').last;
         _imageFile = img;
       });
     } else {
-      _controllers[_backgroundPath].text = "";
       setState(() {
         _backgroundImagePath = 'Background Image';
       });
@@ -186,13 +186,11 @@ class _ProjectFormState extends State<_ProjectForm> {
           ),
         );
       }
-      _controllers[_musicPath].text = music.path;
       setState(() {
         _musicTextBox = 'Music: ' + filename;
         _musicFile = music;
       });
     } else {
-      _controllers[_musicPath].text = "";
       setState(() {
         _musicTextBox = 'Music';
       });
@@ -388,6 +386,36 @@ class _ProjectFormState extends State<_ProjectForm> {
                       ),
                       width: MediaQuery.of(context).size.width,
                     ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Illustrator Name',
+                  helperText: 'Required.',
+                  hintText: 'Picture artist name',
+                  hintStyle: _hintStyle,
+                ),
+                controller: _controllers[_illustrator],
+                validator: (value) =>
+                    value.isEmpty ? 'Illustrator name is required.' : null,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Illutration Source',
+                  helperText:
+                      'Required. Prepend with "Original" for self-made content.',
+                  hintText: 'URL where the image can be found.',
+                  hintStyle: _hintStyle,
+                ),
+                controller: _controllers[_illustratorSource],
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Illustration source cannot be empty';
+                  }
+                  if (!_urlRegexTest.hasMatch(value)) {
+                    return 'Invalid URL. Prepend with "Original" for self made content.';
+                  }
+                  return null;
+                },
+              ),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Project ID',

@@ -64,7 +64,7 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
         appBar: AppBar(
           title: Text(_projectTitle, overflow: TextOverflow.ellipsis),
           actions: <Widget>[
-            // Need to lower the context level to get Scaffold parent
+            // Need to use child context level to get Scaffold parent
             Builder(
               builder: (context) => FlatButton(
                 child: Text('NEXT'),
@@ -83,6 +83,10 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
                       );
                       return;
                     }
+                    // TODO: Change this snackbar to navigate to other page
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('OK')),
+                    );
                   }
                 },
                 textColor: Colors.white,

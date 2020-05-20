@@ -36,4 +36,15 @@ class Meta {
         illustrator = j[LEVEL_ILLUSTRATOR],
         illustrationSource = j[LEVEL_ILLUSTRATOR_SOURCE],
         projectID = j[LEVEL_PROJECT_ID];
+
+  Map<String, dynamic> toJSON() => {
+        LEVEL_CHARTER: charter,
+        LEVEL_MUSIC_TITLE: musicTitle,
+        LEVEL_MUSIC_TITLE_LOCAL: musicTitleLocal,
+        LEVEL_ARTIST: musicArtist,
+        LEVEL_ARTIST_LOCAL: musicArtistLocal,
+        LEVEL_ILLUSTRATOR: illustrator,
+        LEVEL_ILLUSTRATOR_SOURCE: illustrationSource,
+        LEVEL_PROJECT_ID: projectID,
+      };
 }

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 const _artist = 'artist';
 const _artistLocal = 'artist_localized';
@@ -10,9 +9,6 @@ const _artistSource = 'artist_source';
 const _charter = 'charter';
 const _illustrator = 'illustrator';
 const _illustratorSource = 'illustrator_source';
-const _backgroundPath = 'background_path';
-const _musicPath = 'music_path';
-const _previewPath = 'preview_path';
 const _musicTitle = 'title';
 const _musicTitleLocal = 'title_localized';
 const _projectID = 'id';
@@ -23,17 +19,21 @@ class CreateNewProjectScreen extends StatefulWidget {
 }
 
 class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
-  bool isModified = false;
-  String projectTitle = 'New Project';
-  GlobalKey<FormState> formKey;
+  bool _isModified = false;
+  String _projectTitle = 'New Project';
+  GlobalKey<FormState> _formKey;
+  File _musicFile;
+  File _backgroundImageFile;
 
-  setModifiedtoTrue() => isModified = true;
+  setModifiedtoTrue() => _isModified = true;
   setProjectTitle(String title) => setState(() =>
-      title.isEmpty ? projectTitle = 'New Project' : projectTitle = title);
-  setFormKey(GlobalKey<FormState> key) => formKey = key;
+      title.isEmpty ? _projectTitle = 'New Project' : _projectTitle = title);
+  setFormKey(GlobalKey<FormState> key) => _formKey = key;
+  setMusicFile(File music) => _musicFile = music;
+  setBackgroundImageFile(File image) => _backgroundImageFile = image;
 
   Future<bool> _onWillPop() async {
-    if (isModified) {
+    if (_isModified) {
       return (await showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(
@@ -56,18 +56,41 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
     return true;
   }
 
+  _cannotProceed(String text) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text('Cannot Proceed'),
+        content: Text(text),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(projectTitle, overflow: TextOverflow.ellipsis),
+          title: Text(_projectTitle, overflow: TextOverflow.ellipsis),
           actions: <Widget>[
             FlatButton(
               child: Text('NEXT'),
               onPressed: () {
-                if (formKey.currentState.validate()) {}
+                if (_formKey.currentState.validate()) {
+                  if (_musicFile == null) {
+                    return _cannotProceed('Please select a music file');
+                  }
+                  if (_backgroundImageFile == null) {
+                    return _cannotProceed('Please select an image file');
+                  }
+                }
               },
               textColor: Colors.white,
             ),
@@ -77,6 +100,8 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
           setModifiedtoTrue: setModifiedtoTrue,
           setProjectTitle: setProjectTitle,
           setFormKey: setFormKey,
+          setMusicFile: setMusicFile,
+          setBackgroundImageFile: setBackgroundImageFile,
         ),
       ),
     );
@@ -87,27 +112,43 @@ class _ProjectForm extends StatefulWidget {
   final Function setModifiedtoTrue;
   final Function setProjectTitle;
   final Function(GlobalKey<FormState>) setFormKey;
+  final Function(File) setMusicFile;
+  final Function(File) setBackgroundImageFile;
   _ProjectForm({
     this.setModifiedtoTrue,
     this.setProjectTitle,
     this.setFormKey,
+    this.setMusicFile,
+    this.setBackgroundImageFile,
   });
 
   @override
   _ProjectFormState createState() {
     return _ProjectFormState(
-      cbToTrue: setModifiedtoTrue,
+      setModifiedtoTrue: setModifiedtoTrue,
       setProjectTitle: setProjectTitle,
       setFormKey: setFormKey,
+      setMusicFile: setMusicFile,
+      setBackgroundImageFile: setBackgroundImageFile,
     );
   }
 }
 
 class _ProjectFormState extends State<_ProjectForm> {
-  bool isModified;
-  final Function cbToTrue;
+  final Function setModifiedtoTrue;
   final Function(String) setProjectTitle;
   final Function(GlobalKey<FormState>) setFormKey;
+  final Function(File) setMusicFile;
+  final Function(File) setBackgroundImageFile;
+
+  _ProjectFormState({
+    this.setModifiedtoTrue,
+    this.setProjectTitle,
+    this.setFormKey,
+    this.setMusicFile,
+    this.setBackgroundImageFile,
+  });
+
   final formKey = GlobalKey<FormState>();
   File _imageFile;
   String _backgroundImagePath = 'Background Image';
@@ -125,12 +166,6 @@ class _ProjectFormState extends State<_ProjectForm> {
     _musicTitleLocal: TextEditingController(),
     _projectID: TextEditingController(),
   };
-
-  _ProjectFormState({
-    this.cbToTrue,
-    this.setProjectTitle,
-    this.setFormKey,
-  });
 
   RegExp _projectIDRegexTest = new RegExp(
     r"^[\w\.\-\_\~]*$",
@@ -154,6 +189,7 @@ class _ProjectFormState extends State<_ProjectForm> {
       allowedExtensions: ['jpg', 'jpeg', 'png'],
     );
     if (img != null) {
+      setBackgroundImageFile(img);
       setState(() {
         _backgroundImagePath = 'Image: ' + img.path.split('/').last;
         _imageFile = img;
@@ -186,6 +222,7 @@ class _ProjectFormState extends State<_ProjectForm> {
           ),
         );
       }
+      setMusicFile(music);
       setState(() {
         _musicTextBox = 'Music: ' + filename;
         _musicFile = music;
@@ -204,7 +241,7 @@ class _ProjectFormState extends State<_ProjectForm> {
     for (final k in _controllers.keys) {
       _controllers[k].addListener(() {
         if (_controllers[k].text.isNotEmpty) {
-          cbToTrue();
+          setModifiedtoTrue();
         }
       });
     }

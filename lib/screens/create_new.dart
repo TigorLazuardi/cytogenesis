@@ -2,16 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-
-const _artist = 'artist';
-const _artistLocal = 'artist_localized';
-const _artistSource = 'artist_source';
-const _charter = 'charter';
-const _illustrator = 'illustrator';
-const _illustratorSource = 'illustrator_source';
-const _musicTitle = 'title';
-const _musicTitleLocal = 'title_localized';
-const _projectID = 'id';
+import 'package:CytoGenesis/glossary.dart';
 
 class CreateNewProjectScreen extends StatefulWidget {
   @override
@@ -24,6 +15,7 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
   GlobalKey<FormState> _formKey;
   File _musicFile;
   File _backgroundImageFile;
+  Map<String, TextEditingController> _formValues;
 
   setModifiedtoTrue() => _isModified = true;
   setProjectTitle(String title) => setState(() =>
@@ -31,6 +23,7 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
   setFormKey(GlobalKey<FormState> key) => _formKey = key;
   setMusicFile(File music) => _musicFile = music;
   setBackgroundImageFile(File image) => _backgroundImageFile = image;
+  getFormValues(Map<String, TextEditingController> fv) => _formValues = fv;
 
   Future<bool> _onWillPop() async {
     if (_isModified) {
@@ -100,6 +93,7 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
           setFormKey: setFormKey,
           setMusicFile: setMusicFile,
           setBackgroundImageFile: setBackgroundImageFile,
+          getFormValues: getFormValues,
         ),
       ),
     );
@@ -112,12 +106,14 @@ class _ProjectForm extends StatefulWidget {
   final Function(GlobalKey<FormState>) setFormKey;
   final Function(File) setMusicFile;
   final Function(File) setBackgroundImageFile;
+  final Function(Map<String, TextEditingController>) getFormValues;
   _ProjectForm({
     this.setModifiedtoTrue,
     this.setProjectTitle,
     this.setFormKey,
     this.setMusicFile,
     this.setBackgroundImageFile,
+    this.getFormValues,
   });
 
   @override
@@ -128,6 +124,7 @@ class _ProjectForm extends StatefulWidget {
       setFormKey: setFormKey,
       setMusicFile: setMusicFile,
       setBackgroundImageFile: setBackgroundImageFile,
+      getFormValues: getFormValues,
     );
   }
 }
@@ -138,6 +135,7 @@ class _ProjectFormState extends State<_ProjectForm> {
   final Function(GlobalKey<FormState>) setFormKey;
   final Function(File) setMusicFile;
   final Function(File) setBackgroundImageFile;
+  final Function(Map<String, TextEditingController>) getFormValues;
 
   _ProjectFormState({
     this.setModifiedtoTrue,
@@ -145,24 +143,25 @@ class _ProjectFormState extends State<_ProjectForm> {
     this.setFormKey,
     this.setMusicFile,
     this.setBackgroundImageFile,
+    this.getFormValues,
   });
 
   final formKey = GlobalKey<FormState>();
   File _imageFile;
-  String _backgroundImagePath = 'Background Image';
+  String _backgroundImageTextBox = 'Background Image';
   String _musicTextBox = 'Music';
   File _musicFile;
 
   Map<String, TextEditingController> _controllers = {
-    _artist: TextEditingController(),
-    _artistLocal: TextEditingController(),
-    _artistSource: TextEditingController(),
-    _charter: TextEditingController(),
-    _illustrator: TextEditingController(),
-    _illustratorSource: TextEditingController(),
-    _musicTitle: TextEditingController(),
-    _musicTitleLocal: TextEditingController(),
-    _projectID: TextEditingController(),
+    ARTIST: TextEditingController(),
+    ARTIST_LOCAL: TextEditingController(),
+    ARTIST_SOURCE: TextEditingController(),
+    CHARTER: TextEditingController(),
+    ILLUSTRATOR: TextEditingController(),
+    ILLUSTRATOR_SOURCE: TextEditingController(),
+    MUSIC_TITLE: TextEditingController(),
+    MUSIC_TITLE_LOCAL: TextEditingController(),
+    PROJECT_ID: TextEditingController(),
   };
 
   RegExp _projectIDRegexTest = new RegExp(
@@ -189,12 +188,12 @@ class _ProjectFormState extends State<_ProjectForm> {
     if (img != null) {
       setBackgroundImageFile(img);
       setState(() {
-        _backgroundImagePath = 'Image: ' + img.path.split('/').last;
+        _backgroundImageTextBox = 'Image: ' + img.path.split('/').last;
         _imageFile = img;
       });
     } else {
       setState(() {
-        _backgroundImagePath = 'Background Image';
+        _backgroundImageTextBox = 'Background Image';
       });
     }
   }
@@ -235,9 +234,10 @@ class _ProjectFormState extends State<_ProjectForm> {
         }
       });
     }
-    _controllers[_musicTitle].addListener(() {
-      setProjectTitle(_controllers[_musicTitle].text);
+    _controllers[MUSIC_TITLE].addListener(() {
+      setProjectTitle(_controllers[MUSIC_TITLE].text);
     });
+    getFormValues(_controllers);
   }
 
   @override
@@ -264,7 +264,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Your name',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[_charter],
+                controller: _controllers[CHARTER],
                 validator: (String value) =>
                     value.isEmpty ? 'Charter is required.' : null,
               ),
@@ -329,7 +329,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Title (Original language)',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[_musicTitle],
+                controller: _controllers[MUSIC_TITLE],
                 validator: (String value) =>
                     value.isEmpty ? 'Music title is required.' : null,
               ),
@@ -339,7 +339,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Title (english)',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[_musicTitleLocal],
+                controller: _controllers[MUSIC_TITLE_LOCAL],
               ),
               TextFormField(
                 decoration: InputDecoration(
@@ -348,7 +348,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Artist (Original Language)',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[_artist],
+                controller: _controllers[ARTIST],
                 validator: (value) =>
                     value.isEmpty ? 'Music artist is required.' : null,
               ),
@@ -358,7 +358,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Artist (English)',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[_artistLocal],
+                controller: _controllers[ARTIST_LOCAL],
               ),
               Row(
                 children: <Widget>[
@@ -366,7 +366,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                     child: TextFormField(
                       enabled: false,
                       decoration: InputDecoration(
-                        labelText: _backgroundImagePath,
+                        labelText: _backgroundImageTextBox,
                       ),
                     ),
                   ),
@@ -420,7 +420,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Picture artist name',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[_illustrator],
+                controller: _controllers[ILLUSTRATOR],
                 validator: (value) =>
                     value.isEmpty ? 'Illustrator name is required.' : null,
               ),
@@ -431,7 +431,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'URL where the image can be found.',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[_illustratorSource],
+                controller: _controllers[ILLUSTRATOR_SOURCE],
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Illustration source cannot be empty';
@@ -448,7 +448,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   helperText: 'Required.',
                   hintText: 'Naming convention: (charter).(music_title)',
                 ),
-                controller: _controllers[_projectID],
+                controller: _controllers[PROJECT_ID],
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Project ID is required.';

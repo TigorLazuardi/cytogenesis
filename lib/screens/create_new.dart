@@ -56,22 +56,6 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
     return true;
   }
 
-  _cannotProceed(String text) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Text('Cannot Proceed'),
-        content: Text(text),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -80,19 +64,29 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
         appBar: AppBar(
           title: Text(_projectTitle, overflow: TextOverflow.ellipsis),
           actions: <Widget>[
-            FlatButton(
-              child: Text('NEXT'),
-              onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  if (_musicFile == null) {
-                    return _cannotProceed('Please select a music file');
+            // Need to lower the context level to get Scaffold parent
+            Builder(
+              builder: (context) => FlatButton(
+                child: Text('NEXT'),
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    if (_musicFile == null) {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text('Please select a music.')),
+                      );
+                      return;
+                    }
+                    if (_backgroundImageFile == null) {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text('Please select background image.')),
+                      );
+                      return;
+                    }
                   }
-                  if (_backgroundImageFile == null) {
-                    return _cannotProceed('Please select an image file');
-                  }
-                }
-              },
-              textColor: Colors.white,
+                },
+                textColor: Colors.white,
+              ),
             ),
           ],
         ),
@@ -208,17 +202,9 @@ class _ProjectFormState extends State<_ProjectForm> {
     if (music != null) {
       var filename = music.path.split('/').last;
       if (!filename.endsWith('.mp3')) {
-        await showDialog(
-          context: context,
-          builder: (BuildContext context) => new AlertDialog(
-            title: Text('Unsupported File Format'),
-            content: Text('Format other than MP3 will be formatted as one.'),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
-              ),
-            ],
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text('File other than MP3 will be formatted as one.'),
           ),
         );
       }

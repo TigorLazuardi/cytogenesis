@@ -153,15 +153,15 @@ class _ProjectFormState extends State<_ProjectForm> {
   File _musicFile;
 
   Map<String, TextEditingController> _controllers = {
-    ARTIST: TextEditingController(),
-    ARTIST_LOCAL: TextEditingController(),
-    ARTIST_SOURCE: TextEditingController(),
-    CHARTER: TextEditingController(),
-    ILLUSTRATOR: TextEditingController(),
-    ILLUSTRATOR_SOURCE: TextEditingController(),
-    MUSIC_TITLE: TextEditingController(),
-    MUSIC_TITLE_LOCAL: TextEditingController(),
-    PROJECT_ID: TextEditingController(),
+    LEVEL_ARTIST: TextEditingController(),
+    LEVEL_ARTIST_LOCAL: TextEditingController(),
+    LEVEL_ARTIST_SOURCE: TextEditingController(),
+    LEVEL_CHARTER: TextEditingController(),
+    LEVEL_ILLUSTRATOR: TextEditingController(),
+    LEVEL_ILLUSTRATOR_SOURCE: TextEditingController(),
+    LEVEL_MUSIC_TITLE: TextEditingController(),
+    LEVEL_MUSIC_TITLE_LOCAL: TextEditingController(),
+    LEVEL_PROJECT_ID: TextEditingController(),
   };
 
   RegExp _projectIDRegexTest = new RegExp(
@@ -234,8 +234,8 @@ class _ProjectFormState extends State<_ProjectForm> {
         }
       });
     }
-    _controllers[MUSIC_TITLE].addListener(() {
-      setProjectTitle(_controllers[MUSIC_TITLE].text);
+    _controllers[LEVEL_MUSIC_TITLE].addListener(() {
+      setProjectTitle(_controllers[LEVEL_MUSIC_TITLE].text);
     });
     getFormValues(_controllers);
   }
@@ -264,7 +264,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Your name',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[CHARTER],
+                controller: _controllers[LEVEL_CHARTER],
                 validator: (String value) =>
                     value.isEmpty ? 'Charter is required.' : null,
               ),
@@ -329,7 +329,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Title (Original language)',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[MUSIC_TITLE],
+                controller: _controllers[LEVEL_MUSIC_TITLE],
                 validator: (String value) =>
                     value.isEmpty ? 'Music title is required.' : null,
               ),
@@ -339,7 +339,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Title (english)',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[MUSIC_TITLE_LOCAL],
+                controller: _controllers[LEVEL_MUSIC_TITLE_LOCAL],
               ),
               TextFormField(
                 decoration: InputDecoration(
@@ -348,7 +348,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Artist (Original Language)',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[ARTIST],
+                controller: _controllers[LEVEL_ARTIST],
                 validator: (value) =>
                     value.isEmpty ? 'Music artist is required.' : null,
               ),
@@ -358,7 +358,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Artist (English)',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[ARTIST_LOCAL],
+                controller: _controllers[LEVEL_ARTIST_LOCAL],
               ),
               Row(
                 children: <Widget>[
@@ -420,7 +420,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'Picture artist name',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[ILLUSTRATOR],
+                controller: _controllers[LEVEL_ILLUSTRATOR],
                 validator: (value) =>
                     value.isEmpty ? 'Illustrator name is required.' : null,
               ),
@@ -431,7 +431,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   hintText: 'URL where the image can be found.',
                   hintStyle: _hintStyle,
                 ),
-                controller: _controllers[ILLUSTRATOR_SOURCE],
+                controller: _controllers[LEVEL_ILLUSTRATOR_SOURCE],
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Illustration source cannot be empty';
@@ -448,7 +448,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                   helperText: 'Required.',
                   hintText: 'Naming convention: (charter).(music_title)',
                 ),
-                controller: _controllers[PROJECT_ID],
+                controller: _controllers[LEVEL_PROJECT_ID],
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Project ID is required.';

@@ -48,3 +48,46 @@ class Meta {
         LEVEL_PROJECT_ID: projectID,
       };
 }
+
+class MusicMeta {
+  String path;
+  _MusicBuild buildSteps;
+}
+
+class _MusicBuild {
+  List<_Splice> splice;
+  double addSilence;
+  double tailDelete;
+
+  Map<String, dynamic> toJSON() {
+    var s = <dynamic>[];
+    splice.forEach((spl) => s.add(spl.toJSON()));
+    return {
+      'splice': s,
+      'add_silence': addSilence ?? 0.0,
+      'tail_deletion': tailDelete ?? 0.0,
+    };
+  }
+
+  _MusicBuild.fromJSON(Map<String, dynamic> j) {
+    List<Map<String, dynamic>> s = j['splice'];
+    s.forEach((x) => splice.add(_Splice.fromJSON(x)));
+    addSilence = j['add_silence'] ?? 0.0;
+    tailDelete = j['tail_deletion'] ?? 0.0;
+  }
+}
+
+class _Splice {
+  double start;
+  double end;
+  _Splice(this.start, this.end);
+  _Splice.fromJSON(Map<String, dynamic> j)
+      : start = j['start'],
+        end = j['end'];
+  Map<String, dynamic> toJSON() => {
+        'start': start,
+        'end': end,
+      };
+}
+
+class BackgroundImageMeta {}

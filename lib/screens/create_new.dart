@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:CytoGenesis/models/meta.dart';
+import 'package:CytoGenesis/models/project.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:CytoGenesis/glossary.dart';
@@ -49,6 +51,50 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
     return true;
   }
 
+  Builder _nextButton() {
+    return Builder(
+      builder: (context) => FlatButton(
+        child: Text('NEXT'),
+        onPressed: () {
+          if (_formKey.currentState.validate()) {
+            if (_musicFile == null) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(content: Text('Please select a music.')),
+              );
+              return;
+            }
+            if (_backgroundImageFile == null) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(content: Text('Please select background image.')),
+              );
+              return;
+            }
+            Navigator.pushNamed(
+              context,
+              '/edit_music',
+              arguments: Project(
+                _musicFile,
+                _backgroundImageFile,
+                Meta(
+                  charter: _formValues[LEVEL_CHARTER].text,
+                  projectID: _formValues[LEVEL_PROJECT_ID].text,
+                  musicTitle: _formValues[LEVEL_MUSIC_TITLE].text,
+                  musicArtist: _formValues[LEVEL_ARTIST].text,
+                  illustrator: _formValues[LEVEL_ILLUSTRATOR].text,
+                  illustrationSource:
+                      _formValues[LEVEL_ILLUSTRATOR_SOURCE].text,
+                  musicTitleLocal: _formValues[LEVEL_MUSIC_TITLE].text,
+                  musicArtistLocal: _formValues[LEVEL_ARTIST_LOCAL].text,
+                ),
+              ),
+            );
+          }
+        },
+        textColor: Colors.white,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -56,36 +102,7 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(_projectTitle, overflow: TextOverflow.ellipsis),
-          actions: <Widget>[
-            // Need to use child context level to get Scaffold parent
-            Builder(
-              builder: (context) => FlatButton(
-                child: Text('NEXT'),
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    if (_musicFile == null) {
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(content: Text('Please select a music.')),
-                      );
-                      return;
-                    }
-                    if (_backgroundImageFile == null) {
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text('Please select background image.')),
-                      );
-                      return;
-                    }
-                    // TODO: Change this snackbar to navigate to other page
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text('OK')),
-                    );
-                  }
-                },
-                textColor: Colors.white,
-              ),
-            ),
-          ],
+          actions: <Widget>[_nextButton()],
         ),
         body: _ProjectForm(
           setModifiedtoTrue: setModifiedtoTrue,
@@ -304,7 +321,7 @@ class _ProjectFormState extends State<_ProjectForm> {
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height / 8,
                       ),
-                      onTap: _setImage,
+                      onTap: _setMusic,
                     )
                   : Container(
                       decoration: BoxDecoration(

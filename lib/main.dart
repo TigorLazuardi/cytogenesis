@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'screens/projects.dart';
+import 'package:CytoGenesis/screens/projects.dart';
 import 'package:CytoGenesis/screens/create_new.dart';
+import 'package:CytoGenesis/screens/music_edit.dart';
 
 void main() => runApp(Root());
 
@@ -13,6 +14,7 @@ class Root extends StatelessWidget {
       routes: {
         '/': (BuildContext context) => ProjectScreen(),
         '/create_new': (BuildContext context) => CreateNewProjectScreen(),
+        '/edit_music': (BuildContext context) => MusicEditScreen(),
       },
     );
   }

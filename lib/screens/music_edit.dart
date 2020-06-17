@@ -17,7 +17,12 @@ class _MusicEditScreenState extends State<MusicEditScreen> {
             Builder(
               builder: (context) => FlatButton(
                 child: Text('NEXT'),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/workbench',
+                  );
+                },
                 textColor: Colors.white,
               ),
             ),

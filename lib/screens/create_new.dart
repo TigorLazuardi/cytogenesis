@@ -56,39 +56,38 @@ class _CreateNewProjectScreenState extends State<CreateNewProjectScreen> {
       builder: (context) => FlatButton(
         child: Text('NEXT'),
         onPressed: () {
-          if (_formKey.currentState.validate()) {
-            if (_musicFile == null) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(content: Text('Please select a music.')),
-              );
-              return;
-            }
-            if (_backgroundImageFile == null) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(content: Text('Please select background image.')),
-              );
-              return;
-            }
-            Navigator.pushNamed(
-              context,
-              '/edit_music',
-              arguments: Project(
-                _musicFile,
-                _backgroundImageFile,
-                Meta(
-                  charter: _formValues[LEVEL_CHARTER].text,
-                  projectID: _formValues[LEVEL_PROJECT_ID].text,
-                  musicTitle: _formValues[LEVEL_MUSIC_TITLE].text,
-                  musicArtist: _formValues[LEVEL_ARTIST].text,
-                  illustrator: _formValues[LEVEL_ILLUSTRATOR].text,
-                  illustrationSource:
-                      _formValues[LEVEL_ILLUSTRATOR_SOURCE].text,
-                  musicTitleLocal: _formValues[LEVEL_MUSIC_TITLE].text,
-                  musicArtistLocal: _formValues[LEVEL_ARTIST_LOCAL].text,
-                ),
+          // if (_formKey.currentState.validate()) {
+          //   if (_musicFile == null) {
+          //     Scaffold.of(context).showSnackBar(
+          //       SnackBar(content: Text('Please select a music.')),
+          //     );
+          //     return;
+          //   }
+          //   if (_backgroundImageFile == null) {
+          //     Scaffold.of(context).showSnackBar(
+          //       SnackBar(content: Text('Please select background image.')),
+          //     );
+          //     return;
+          //   }
+          Navigator.pushNamed(
+            context,
+            '/edit_music',
+            arguments: Project(
+              _musicFile,
+              _backgroundImageFile,
+              Meta(
+                charter: _formValues[LEVEL_CHARTER].text,
+                projectID: _formValues[LEVEL_PROJECT_ID].text,
+                musicTitle: _formValues[LEVEL_MUSIC_TITLE].text,
+                musicArtist: _formValues[LEVEL_ARTIST].text,
+                illustrator: _formValues[LEVEL_ILLUSTRATOR].text,
+                illustrationSource: _formValues[LEVEL_ILLUSTRATOR_SOURCE].text,
+                musicTitleLocal: _formValues[LEVEL_MUSIC_TITLE].text,
+                musicArtistLocal: _formValues[LEVEL_ARTIST_LOCAL].text,
               ),
-            );
-          }
+            ),
+          );
+          // }
         },
         textColor: Colors.white,
       ),

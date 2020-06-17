@@ -34,6 +34,35 @@ class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => Size(0.0, 0.0);
 }
 
+// Remove appbar and elevation for fullscreen app base material app
+class Null extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    final AppBarTheme appBarTheme = AppBarTheme.of(context);
+    final Brightness brightness = appBarTheme.brightness;
+    final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark;
+    return Semantics(
+      container: true,
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: overlayStyle,
+        child: Material(
+          color: appBarTheme.color,
+          elevation: 0,
+          child: Semantics(
+            explicitChildNodes: true,
+            child: Container(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => Size(0.0, 0.0);
+}
+
 class Result<T, V> {
   T var1;
   V var2;

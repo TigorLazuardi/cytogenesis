@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:CytoGenesis/globals.dart';
 
 class WorkbenchScreen extends StatefulWidget {
   @override
@@ -29,15 +30,16 @@ class _WorkbbenchScreenState extends State<WorkbenchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: Colors.white),
-      child: Center(
-        child: Text(
-          "Workbench",
-          textDirection: TextDirection.ltr,
-          style: TextStyle(
-            fontSize: 32,
-            color: Colors.black87,
+    // Still need to return scaffold because base app is Material...
+    return Scaffold(
+      appBar: Null(),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Center(
+          child: Text(
+            "Workbench",
           ),
         ),
       ),

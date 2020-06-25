@@ -273,17 +273,7 @@ class _ProjectFormState extends State<_ProjectForm> {
           padding: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Charter',
-                  helperText: 'Required.',
-                  hintText: 'Your name',
-                  hintStyle: _hintStyle,
-                ),
-                controller: _controllers[LEVEL_CHARTER],
-                validator: (String value) =>
-                    value.isEmpty ? 'Charter is required.' : null,
-              ),
+              CharterTextBox(hintStyle: _hintStyle, controllers: _controllers),
               Row(
                 children: <Widget>[
                   Expanded(
@@ -338,44 +328,14 @@ class _ProjectFormState extends State<_ProjectForm> {
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height / 8,
                     ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Music Title',
-                  helperText: 'Required.',
-                  hintText: 'Title (Original language)',
-                  hintStyle: _hintStyle,
-                ),
-                controller: _controllers[LEVEL_MUSIC_TITLE],
-                validator: (String value) =>
-                    value.isEmpty ? 'Music title is required.' : null,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Music Title (Localized)',
-                  hintText: 'Title (english)',
-                  hintStyle: _hintStyle,
-                ),
-                controller: _controllers[LEVEL_MUSIC_TITLE_LOCAL],
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Music Artist',
-                  helperText: 'Required.',
-                  hintText: 'Artist (Original Language)',
-                  hintStyle: _hintStyle,
-                ),
-                controller: _controllers[LEVEL_ARTIST],
-                validator: (value) =>
-                    value.isEmpty ? 'Music artist is required.' : null,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Music Artist (Localized)',
-                  hintText: 'Artist (English)',
-                  hintStyle: _hintStyle,
-                ),
-                controller: _controllers[LEVEL_ARTIST_LOCAL],
-              ),
+              MusicTitleTextBox(
+                  hintStyle: _hintStyle, controllers: _controllers),
+              MusicTitleLocalizedTextBox(
+                  hintStyle: _hintStyle, controllers: _controllers),
+              MusicArtistTextBox(
+                  hintStyle: _hintStyle, controllers: _controllers),
+              MusicArtistLocalizedTextBox(
+                  hintStyle: _hintStyle, controllers: _controllers),
               Row(
                 children: <Widget>[
                   Expanded(
@@ -429,52 +389,15 @@ class _ProjectFormState extends State<_ProjectForm> {
                       ),
                       width: MediaQuery.of(context).size.width,
                     ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Illustrator Name',
-                  helperText: 'Required.',
-                  hintText: 'Picture artist name',
+              IllustratorTextBox(
+                  hintStyle: _hintStyle, controllers: _controllers),
+              IllustrationSourceTextBox(
                   hintStyle: _hintStyle,
-                ),
-                controller: _controllers[LEVEL_ILLUSTRATOR],
-                validator: (value) =>
-                    value.isEmpty ? 'Illustrator name is required.' : null,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Illutration Source',
-                  helperText: 'Required. Use "Original" for self-made content.',
-                  hintText: 'URL where the image can be found.',
-                  hintStyle: _hintStyle,
-                ),
-                controller: _controllers[LEVEL_ILLUSTRATOR_SOURCE],
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Illustration source cannot be empty';
-                  }
-                  if (!_urlRegexTest.hasMatch(value)) {
-                    return 'Invalid URL. Use "Original" for self made content.';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Project ID',
-                  helperText: 'Required.',
-                  hintText: 'Naming convention: (charter).(music_title)',
-                ),
-                controller: _controllers[LEVEL_PROJECT_ID],
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Project ID is required.';
-                  }
-                  if (!_projectIDRegexTest.hasMatch(value)) {
-                    return 'Project ID only supports Alphanumerics and "_" / "." / "-" / "~"';
-                  }
-                  return null;
-                },
-              ),
+                  controllers: _controllers,
+                  urlRegexTest: _urlRegexTest),
+              ProjectIDTextBox(
+                  controllers: _controllers,
+                  projectIDRegexTest: _projectIDRegexTest),
               Container(
                 height: MediaQuery.of(context).size.height / 50,
               ),
@@ -482,6 +405,239 @@ class _ProjectFormState extends State<_ProjectForm> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ProjectIDTextBox extends StatelessWidget {
+  const ProjectIDTextBox({
+    Key key,
+    @required Map<String, TextEditingController> controllers,
+    @required RegExp projectIDRegexTest,
+  })  : _controllers = controllers,
+        _projectIDRegexTest = projectIDRegexTest,
+        super(key: key);
+
+  final Map<String, TextEditingController> _controllers;
+  final RegExp _projectIDRegexTest;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Project ID',
+        helperText: 'Required.',
+        hintText: 'Naming convention: (charter).(music_title)',
+      ),
+      controller: _controllers[LEVEL_PROJECT_ID],
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Project ID is required.';
+        }
+        if (!_projectIDRegexTest.hasMatch(value)) {
+          return 'Project ID only supports Alphanumerics and "_" / "." / "-" / "~"';
+        }
+        return null;
+      },
+    );
+  }
+}
+
+class IllustrationSourceTextBox extends StatelessWidget {
+  const IllustrationSourceTextBox({
+    Key key,
+    @required TextStyle hintStyle,
+    @required Map<String, TextEditingController> controllers,
+    @required RegExp urlRegexTest,
+  })  : _hintStyle = hintStyle,
+        _controllers = controllers,
+        _urlRegexTest = urlRegexTest,
+        super(key: key);
+
+  final TextStyle _hintStyle;
+  final Map<String, TextEditingController> _controllers;
+  final RegExp _urlRegexTest;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Illutration Source',
+        helperText: 'Required. Use "Original" for self-made content.',
+        hintText: 'URL where the image can be found.',
+        hintStyle: _hintStyle,
+      ),
+      controller: _controllers[LEVEL_ILLUSTRATOR_SOURCE],
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Illustration source cannot be empty';
+        }
+        if (!_urlRegexTest.hasMatch(value)) {
+          return 'Invalid URL. Use "Original" for self made content.';
+        }
+        return null;
+      },
+    );
+  }
+}
+
+class IllustratorTextBox extends StatelessWidget {
+  const IllustratorTextBox({
+    Key key,
+    @required TextStyle hintStyle,
+    @required Map<String, TextEditingController> controllers,
+  })  : _hintStyle = hintStyle,
+        _controllers = controllers,
+        super(key: key);
+
+  final TextStyle _hintStyle;
+  final Map<String, TextEditingController> _controllers;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Illustrator Name',
+        helperText: 'Required.',
+        hintText: 'Picture artist name',
+        hintStyle: _hintStyle,
+      ),
+      controller: _controllers[LEVEL_ILLUSTRATOR],
+      validator: (value) =>
+          value.isEmpty ? 'Illustrator name is required.' : null,
+    );
+  }
+}
+
+class MusicArtistLocalizedTextBox extends StatelessWidget {
+  const MusicArtistLocalizedTextBox({
+    Key key,
+    @required TextStyle hintStyle,
+    @required Map<String, TextEditingController> controllers,
+  })  : _hintStyle = hintStyle,
+        _controllers = controllers,
+        super(key: key);
+
+  final TextStyle _hintStyle;
+  final Map<String, TextEditingController> _controllers;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Music Artist (Localized)',
+        hintText: 'Artist (English)',
+        hintStyle: _hintStyle,
+      ),
+      controller: _controllers[LEVEL_ARTIST_LOCAL],
+    );
+  }
+}
+
+class MusicArtistTextBox extends StatelessWidget {
+  const MusicArtistTextBox({
+    Key key,
+    @required TextStyle hintStyle,
+    @required Map<String, TextEditingController> controllers,
+  })  : _hintStyle = hintStyle,
+        _controllers = controllers,
+        super(key: key);
+
+  final TextStyle _hintStyle;
+  final Map<String, TextEditingController> _controllers;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Music Artist',
+        helperText: 'Required.',
+        hintText: 'Artist (Original Language)',
+        hintStyle: _hintStyle,
+      ),
+      controller: _controllers[LEVEL_ARTIST],
+      validator: (value) => value.isEmpty ? 'Music artist is required.' : null,
+    );
+  }
+}
+
+class MusicTitleLocalizedTextBox extends StatelessWidget {
+  const MusicTitleLocalizedTextBox({
+    Key key,
+    @required TextStyle hintStyle,
+    @required Map<String, TextEditingController> controllers,
+  })  : _hintStyle = hintStyle,
+        _controllers = controllers,
+        super(key: key);
+
+  final TextStyle _hintStyle;
+  final Map<String, TextEditingController> _controllers;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Music Title (Localized)',
+        hintText: 'Title (english)',
+        hintStyle: _hintStyle,
+      ),
+      controller: _controllers[LEVEL_MUSIC_TITLE_LOCAL],
+    );
+  }
+}
+
+class MusicTitleTextBox extends StatelessWidget {
+  const MusicTitleTextBox({
+    Key key,
+    @required TextStyle hintStyle,
+    @required Map<String, TextEditingController> controllers,
+  })  : _hintStyle = hintStyle,
+        _controllers = controllers,
+        super(key: key);
+
+  final TextStyle _hintStyle;
+  final Map<String, TextEditingController> _controllers;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Music Title',
+        helperText: 'Required.',
+        hintText: 'Title (Original language)',
+        hintStyle: _hintStyle,
+      ),
+      controller: _controllers[LEVEL_MUSIC_TITLE],
+      validator: (String value) =>
+          value.isEmpty ? 'Music title is required.' : null,
+    );
+  }
+}
+
+class CharterTextBox extends StatelessWidget {
+  const CharterTextBox({
+    Key key,
+    @required TextStyle hintStyle,
+    @required Map<String, TextEditingController> controllers,
+  })  : _hintStyle = hintStyle,
+        _controllers = controllers,
+        super(key: key);
+
+  final TextStyle _hintStyle;
+  final Map<String, TextEditingController> _controllers;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Charter',
+        helperText: 'Required.',
+        hintText: 'Your name',
+        hintStyle: _hintStyle,
+      ),
+      controller: _controllers[LEVEL_CHARTER],
+      validator: (String value) =>
+          value.isEmpty ? 'Charter is required.' : null,
     );
   }
 }

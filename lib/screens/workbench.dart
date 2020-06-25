@@ -42,15 +42,98 @@ class _WorkbbenchScreenState extends State<WorkbenchScreen> {
 class BaseWorkbenchLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[TopArea(), BottomArea()],
+      children: <Widget>[LeftArea(), RightArea()],
     );
   }
 }
 
-class TopArea extends StatelessWidget {
-  const TopArea({
+class LeftArea extends StatelessWidget {
+  const LeftArea({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 15),
+      child: Column(
+        children: <Widget>[
+          TopLeftArea(),
+          LeftAreaSecondRow(),
+          LeftAreaThirdRow(),
+          LeftAreaFourthRow(),
+          Expanded(
+            flex: 1,
+            child: Container(),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class LeftAreaFourthRow extends StatelessWidget {
+  const LeftAreaFourthRow({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 2,
+      child: Row(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(left: 5, right: 5),
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+            child: Center(
+              child: Text('Hold'),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 5, right: 5),
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+            child: Center(
+              child: Text('L-Hold'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class LeftAreaThirdRow extends StatelessWidget {
+  const LeftAreaThirdRow({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 2,
+      child: Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            GenerateTapNoteButton(),
+            GenerateFlickNoteButton(),
+            GenerateChainNoteButton(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class GenerateChainNoteButton extends StatelessWidget {
+  const GenerateChainNoteButton({
     Key key,
   }) : super(key: key);
 
@@ -58,31 +141,115 @@ class TopArea extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      child: TopAreaContent(),
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 1,
-          color: Colors.black,
+      width: 50,
+      margin: EdgeInsets.only(left: 5, right: 5),
+      decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+      child: Center(
+        child: Text('Chain'),
+      ),
+    );
+  }
+}
+
+class GenerateFlickNoteButton extends StatelessWidget {
+  const GenerateFlickNoteButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 5, right: 5),
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+      child: Center(
+        child: Text('Flick'),
+      ),
+    );
+  }
+}
+
+class GenerateTapNoteButton extends StatelessWidget {
+  const GenerateTapNoteButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 5, right: 5),
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+      child: Center(
+        child: Text('Tap'),
+      ),
+    );
+  }
+}
+
+class LeftAreaSecondRow extends StatelessWidget {
+  const LeftAreaSecondRow({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 2,
+      child: Container(
+        margin: EdgeInsets.only(top: 5, bottom: 5),
+        child: Row(
+          children: <Widget>[LeftArrowButton(), PageMeta(), RightArrowButton()],
         ),
       ),
     );
   }
 }
 
-class TopAreaContent extends StatelessWidget {
-  const TopAreaContent({
+class TopLeftArea extends StatelessWidget {
+  const TopLeftArea({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        BurgerMenuButton(),
-        LeftArrowButton(),
-        PageMeta(),
-        RightArrowButton()
-      ],
+    return Flexible(
+      flex: 1,
+      child: Container(
+        margin: EdgeInsets.only(top: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[BurgerMenuButton(), SectionButton()],
+        ),
+      ),
+    );
+  }
+}
+
+class SectionButton extends StatelessWidget {
+  const SectionButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 10),
+      width: 110,
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 1,
+          color: Colors.black,
+        ),
+      ),
+      child: Center(
+        child: Text(
+          'Section',
+          textDirection: TextDirection.ltr,
+        ),
+      ),
     );
   }
 }
@@ -96,7 +263,7 @@ class RightArrowButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text('Right Arrow'),
+        child: Text('Arrow'),
       ),
       padding: EdgeInsets.only(right: 5, left: 5),
       decoration: BoxDecoration(
@@ -133,10 +300,16 @@ class BurgerMenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(
-        child: Text('Burger Menu'),
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 1,
+          color: Colors.black,
+        ),
       ),
-      margin: EdgeInsets.only(right: 5, left: 5),
+      child: Center(
+        child: Text('Menu'),
+      ),
+      width: 50,
     );
   }
 }
@@ -150,7 +323,7 @@ class LeftArrowButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text('Left Arrow'),
+        child: Text('Arrow'),
       ),
       padding: EdgeInsets.only(right: 5, left: 5),
       decoration: BoxDecoration(
@@ -163,8 +336,8 @@ class LeftArrowButton extends StatelessWidget {
   }
 }
 
-class BottomArea extends StatelessWidget {
-  const BottomArea({
+class RightArea extends StatelessWidget {
+  const RightArea({
     Key key,
   }) : super(key: key);
 
@@ -172,8 +345,9 @@ class BottomArea extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
+        margin: EdgeInsets.all(15),
         child: Center(
-          child: Text('Bottom'),
+          child: Text('Right'),
         ),
         decoration: BoxDecoration(
           border: Border.all(
